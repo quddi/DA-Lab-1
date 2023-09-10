@@ -17,7 +17,7 @@ C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\refint\DA
 C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\DA-Lab-1.pdb
 C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\DA-Lab-1.genruntimeconfig.cache
 C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\ref\DA-Lab-1.dll
-C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\Windows\MainWindow.g.cs
-C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\Windows\MainWindow.baml
-C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\Windows\TestWindow.g.cs
-C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\Windows\TestWindow.baml
+C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\Windows\Concrete\MainWindow.g.cs
+C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\Windows\Concrete\TestWindow.g.cs
+C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\Windows\Concrete\MainWindow.baml
+C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\Windows\Concrete\TestWindow.baml

@@ -7,15 +7,15 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Windows\TestWindow.xaml.cs">
+    <Compile Update="Windows\Concrete\TestWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Windows\MainWindow.xaml">
+    <Page Update="Windows\Concrete\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\TestWindow.xaml">
+    <Page Update="Windows\Concrete\TestWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
