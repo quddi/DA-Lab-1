@@ -1,14 +1,27 @@
-﻿using DA_Lab_1.DTO.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DA_Lab_1.Extentions
+namespace DA_Lab_1
 {
     internal static class ExtentionsMethods
     {
+        public static int GetClassesAmount(int elementsAmount)
+        {
+            if (elementsAmount < 100)
+            {
+                var sqrt = (int)Math.Sqrt(elementsAmount);
+
+                return sqrt % 2 == 0 ? sqrt - 1 : sqrt;
+            }
+            else
+            {
+                var sqrt = (int)Math.Pow(elementsAmount, 1.0/3.0);
+
+                return sqrt % 2 == 0 ? sqrt - 1 : sqrt;
+            }
+        }
+
         public static T2 GetValue<T1, T2>(this IDictionary<T1, T2> dictionary, T1 key)
         {
             if (!dictionary.ContainsKey(key)) return default;

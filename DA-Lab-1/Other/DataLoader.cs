@@ -5,7 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 
-namespace DA_Lab_1.Other
+namespace DA_Lab_1
 {
     static class DataLoader
     {

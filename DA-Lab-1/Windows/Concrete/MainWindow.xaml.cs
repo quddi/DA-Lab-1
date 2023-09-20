@@ -1,9 +1,4 @@
-﻿using DA_Lab_1.DataConverters;
-using DA_Lab_1.DTO.Base;
-using DA_Lab_1.DTO.Specifics;
-using DA_Lab_1.Extentions;
-using DA_Lab_1.Other;
-using DA_Lab_1.Specifics.DataHandlers;
+﻿using DA_Lab_1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,65 +12,73 @@ namespace DA_Lab_1
     {
         private Dictionary<Type, List<IData>> _datas = new();
 
+        private int _classesAmount;
+
+        private const int MinClassifiedDatasAmount = 1;
+
         public MainWindow()
         {
             InitializeComponent();
 
             CreateGrouppedDataGrid();
+
+            PrepareClassifiedDataGrid();
         
-            FirstDataGrid.IsReadOnly = true;
+            GrouppedDataGrid.IsReadOnly = true;
         }
 
+        #region Groupped data
         private void CreateGrouppedDataGrid()
         {
-            FirstDataGrid.Columns.Clear();
+            GrouppedDataGrid.Columns.Clear();
 
             DataGridTextColumn variantNumColumn = new DataGridTextColumn()
             {
-                Header = "№ Варіанти",
+                Header = "№",
                 Binding = new Binding(nameof(GrouppedData.VariantNum)),
-                Width = new DataGridLength(1, DataGridLengthUnitType.Star)
+                Width = 30
             };
 
             DataGridTextColumn variantValueColumn = new DataGridTextColumn()
             {
-                Header = "Значення варіанти",
+                Header = "Значення",
                 Binding = new Binding(nameof(GrouppedData.VariantValue)),
-                Width = new DataGridLength(1, DataGridLengthUnitType.Star)
+                Width = 70
             };
 
             DataGridTextColumn frequencyColumn = new DataGridTextColumn() 
             { 
                 Header = "Частота",
                 Binding = new Binding(nameof(GrouppedData.Frequency)),
-                Width = new DataGridLength(1, DataGridLengthUnitType.Star)
+                Width = 60
             };
 
             DataGridTextColumn relativeFrequencyColumn = new DataGridTextColumn() 
             { 
                 Header = "Відносна частота",
-                Binding = new Binding(nameof(GrouppedData.RelativeFrequency)),
-                Width = new DataGridLength(1, DataGridLengthUnitType.Star)
+                Binding = new Binding(nameof(GrouppedData.FormattedRelativeFrequency)),
+                Width = 110
             };
 
             DataGridTextColumn empFunctionValueColumn = new DataGridTextColumn() 
             { 
-                Header = "Значення емпіричної функції розподілу",
-                Binding = new Binding(nameof(GrouppedData.EmpericFunctionValue)),
-                Width = 300
+                Header = "Значення емп. функції",
+                Binding = new Binding(nameof(GrouppedData.FormattedEmpericFunctionValue)),
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star)
             };
 
-            FirstDataGrid.Columns.Add(variantNumColumn);
-            FirstDataGrid.Columns.Add(variantValueColumn);
-            FirstDataGrid.Columns.Add(frequencyColumn);
-            FirstDataGrid.Columns.Add(relativeFrequencyColumn);
-            FirstDataGrid.Columns.Add(empFunctionValueColumn);
+            GrouppedDataGrid.Columns.Add(variantNumColumn);
+            GrouppedDataGrid.Columns.Add(variantValueColumn);
+            GrouppedDataGrid.Columns.Add(frequencyColumn);
+            GrouppedDataGrid.Columns.Add(relativeFrequencyColumn);
+            GrouppedDataGrid.Columns.Add(empFunctionValueColumn);
         }
 
         private void UploadFileButtonClick(object sender, RoutedEventArgs e)
         {
-            var rowDatas = DataLoader.LoadValues()?               
-                .Select(value => new RowData() { VariantValue = value })                
+            var rowDatas = DataLoader.LoadValues()?
+                .Select(value => new RowData() { VariantValue = value })
+                .OrderBy(rowData => rowData.VariantValue)
                 .ToList();
 
             if (rowDatas == null)
@@ -88,13 +91,80 @@ namespace DA_Lab_1
             _datas.AddPair(typeof(RowData), rowDatas.ToGeneralDataList());
 
             var groupedDatas = MainDataConverter.Handle<RowData, GrouppedData>(rowDatas);
-            
+
             _datas.AddPair(typeof(GrouppedData), groupedDatas.ToGeneralDataList());
 
-            foreach (var grouppedData in groupedDatas) 
-            { 
-                FirstDataGrid.Items.Add(grouppedData);
-            }
+            FillGrouppedDatasGrid(groupedDatas);
         }
+
+        private void FillGrouppedDatasGrid(List<GrouppedData> groupedDatas)
+        {
+            GrouppedDataGrid.Items.Clear();
+
+            foreach (var grouppedData in groupedDatas)
+                GrouppedDataGrid.Items.Add(grouppedData);
+        }
+        #endregion
+
+        #region Classified data
+        private void PrepareClassifiedDataGrid()
+        {
+            ((DataGridTextColumn)ClassedDataGrid.Columns[0]).Binding = new Binding(nameof(ClassifiedData.ClassNum));
+            ((DataGridTextColumn)ClassedDataGrid.Columns[1]).Binding = new Binding(nameof(ClassifiedData.FormattedEdges));
+            ((DataGridTextColumn)ClassedDataGrid.Columns[2]).Binding = new Binding(nameof(ClassifiedData.Frequency));
+            ((DataGridTextColumn)ClassedDataGrid.Columns[3]).Binding = new Binding(nameof(ClassifiedData.FormattedRelativeFrequency));
+            ((DataGridTextColumn)ClassedDataGrid.Columns[4]).Binding = new Binding(nameof(ClassifiedData.FormattedEmpericFunctionValue));
+        }
+
+        private void ClassifyDataButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!_datas.ContainsKey(typeof(GrouppedData)))
+                throw new InvalidOperationException($"Для створення классифікованих данних необхідна наявність згрупованих даних!");
+
+            var grouppedDatasAmount = _datas[typeof(GrouppedData)].Count;
+
+            int amount = ExtentionsMethods.GetClassesAmount(grouppedDatasAmount);
+
+            ClassesAmountTextBox.Text = "";
+            ClassesAmountTextBox.Text = amount.ToString();
+        }
+
+        private void SetClassesAmount(int amount)
+        {
+            _classesAmount = amount;
+
+            UpdateClassifiedDatas();
+        }
+
+        private void UpdateClassifiedDatas()
+        {
+            var parameters = new GrouppedToClassifiedConverterParameters() { ClassesAmount = _classesAmount };
+
+            var grouppedDatas = _datas[typeof(GrouppedData)].ToTemplateDataList<GrouppedData>();
+
+            List<ClassifiedData> classifiedDatas = MainDataConverter.Handle<GrouppedData, ClassifiedData>(grouppedDatas, parameters);
+            
+            _datas[typeof(ClassifiedData)] = classifiedDatas.ToGeneralDataList();
+
+            FillClassifiedDatasGrid(classifiedDatas);
+        }
+
+        private void FillClassifiedDatasGrid(List<ClassifiedData> classifiedDatas)
+        {
+            ClassedDataGrid.Items.Clear();
+
+            foreach (var grouppedData in classifiedDatas)
+                ClassedDataGrid.Items.Add(grouppedData);
+        }
+
+        private void ClassesAmountTextBoxTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!int.TryParse(ClassesAmountTextBox.Text, out int classesAmount)) return;
+
+            if (MinClassifiedDatasAmount > classesAmount || classesAmount > _datas[typeof(GrouppedData)].Count) return;
+        
+            SetClassesAmount(classesAmount);
+        }
+        #endregion
     }
 }

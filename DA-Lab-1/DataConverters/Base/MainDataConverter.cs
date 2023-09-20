@@ -1,18 +1,14 @@
-﻿using DA_Lab_1.DataConverters.Base;
-using DA_Lab_1.DTO.Base;
-using DA_Lab_1.DTO.Specifics;
-using DA_Lab_1.Extentions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace DA_Lab_1.Specifics.DataHandlers
+namespace DA_Lab_1
 {
     static class MainDataConverter
     {
         private static Dictionary<(Type from, Type to), IDataConverter> _dataConverters = new()
         {
-            { (typeof(RowData), typeof(GrouppedData)), new RowToGrouppedDataConverter() }
+            { (typeof(RowData), typeof(GrouppedData)), new RowToGrouppedDataConverter() },
+            { (typeof(GrouppedData), typeof(ClassifiedData)), new GrouppedToClassifiedDataConverter() }
         };
 
         public static List<T2> Handle<T1, T2>(List<T1> datas, IDataConverterParameters? parameters = null) where T1 : IData where T2 : IData

@@ -1,9 +1,7 @@
-﻿using DA_Lab_1.DataConverters.Base;
-using DA_Lab_1.DTO.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace DA_Lab_1.Specifics.DataHandlers
+namespace DA_Lab_1
 {
     interface IDataConverter
     {

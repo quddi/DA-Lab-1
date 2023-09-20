@@ -1,10 +1,8 @@
-﻿using DA_Lab_1.DataConverters.Base;
-using DA_Lab_1.DTO.Specifics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DA_Lab_1.Specifics.DataHandlers
+namespace DA_Lab_1
 {
     class RowToGrouppedDataConverter : DataConverter<RowData, GrouppedData>
     {

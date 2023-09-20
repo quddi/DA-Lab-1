@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace DA_Lab_1.Windows.Base
+namespace DA_Lab_1
 {
     internal static class WindowsResponsible
     {

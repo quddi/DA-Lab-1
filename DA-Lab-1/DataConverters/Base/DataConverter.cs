@@ -1,11 +1,7 @@
-﻿using DA_Lab_1.DataConverters.Base;
-using DA_Lab_1.DTO.Base;
-using DA_Lab_1.Extentions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
 
-namespace DA_Lab_1.Specifics.DataHandlers
+namespace DA_Lab_1
 {
     internal abstract class DataConverter<T1, T2> : IDataConverter where T1 : IData where T2 : IData
     {

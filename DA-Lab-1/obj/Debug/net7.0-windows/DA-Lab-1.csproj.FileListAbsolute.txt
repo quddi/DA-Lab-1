@@ -3,7 +3,6 @@ C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\bin\Debug\net7.0-windows\DA-Lab-1.
 C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\bin\Debug\net7.0-windows\DA-Lab-1.runtimeconfig.json
 C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\bin\Debug\net7.0-windows\DA-Lab-1.dll
 C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\bin\Debug\net7.0-windows\DA-Lab-1.pdb
-C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\DA-Lab-1.csproj.AssemblyReference.cache
 C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\App.g.cs
 C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\DA-Lab-1_MarkupCompile.cache
 C:\Users\alemk\source\repos\DA-Lab-1\DA-Lab-1\obj\Debug\net7.0-windows\DA-Lab-1_MarkupCompile.lref
