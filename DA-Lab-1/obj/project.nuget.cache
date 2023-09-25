@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "AxY6eD8CdQH36J/pkj1wMtk25hdMmuNSOSbMz66aYz+KE3V944RcsRCiiW1eStFCcxsg7JgCTCsCVWo2nvtARw==",
+  "dgSpecHash": "O83xyTeyPFV0jbtG/hz0dn7kGfrhhQmISf2d32IJWf6voClewblBEeLF1djtOJhGcnJ5VgKjeQvvF/ssVB0gBQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\alemk\\source\\repos\\DA-Lab-1\\DA-Lab-1\\DA-Lab-1.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\alemk\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.4\\microsoft.netcore.platforms.3.1.4.nupkg.sha512",
+    "C:\\Users\\alemk\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\alemk\\.nuget\\packages\\scottplot\\4.1.67\\scottplot.4.1.67.nupkg.sha512",
+    "C:\\Users\\alemk\\.nuget\\packages\\scottplot.wpf\\4.1.67\\scottplot.wpf.4.1.67.nupkg.sha512",
+    "C:\\Users\\alemk\\.nuget\\packages\\system.drawing.common\\4.7.2\\system.drawing.common.4.7.2.nupkg.sha512",
+    "C:\\Users\\alemk\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512"
+  ],
   "logs": []
 }

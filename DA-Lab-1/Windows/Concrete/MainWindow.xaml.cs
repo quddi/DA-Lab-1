@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Binding = System.Windows.Data.Binding;
 
 namespace DA_Lab_1
 {
@@ -165,6 +166,16 @@ namespace DA_Lab_1
         
             SetClassesAmount(classesAmount);
         }
+        #endregion
+
+        #region Bar chart
+
+        private void DrawBarChart()
+        {
+            double[] data = { 10, 15, 8, 12, 5 };
+
+        }
+
         #endregion
     }
 }

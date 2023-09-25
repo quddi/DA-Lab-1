@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="675" Width="1200">
     <Grid>
-        <DataGrid x:Name="GrouppedDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="17,55,0,0" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" Height="205" VerticalAlignment="Top" HorizontalAlignment="Left" Width="418">
+        <DataGrid x:Name="GrouppedDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,0,0" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" Height="205" VerticalAlignment="Top" HorizontalAlignment="Left" Width="418">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" CanUserResize="False" Width="30"/>
                 <DataGridTextColumn Header="Значення" CanUserResize="False" Width="70"/>
@@ -16,10 +16,10 @@
                 <DataGridTextColumn Header="Значення емп. функції" CanUserResize="False" FontSize="12" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="UploadFileButton" Content="Завантажити файл" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="131" Click="UploadFileButtonClick"/>
-        <Button x:Name="ClassifyDataButton" Content="   Поділити на класи" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="173" Margin="131,0,0,0" HorizontalContentAlignment="Left" Click="ClassifyDataButtonClick"/>
-        <TextBox x:Name="ClassesAmountTextBox" HorizontalAlignment="Left" Margin="256,4,0,0" TextWrapping="Wrap" Text="..." VerticalAlignment="Top" Width="43" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ClassesAmountTextBoxTextChanged"/>
-        <DataGrid x:Name="ClassedDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="462,55,0,0" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" Height="205" VerticalAlignment="Top" HorizontalAlignment="Left" Width="473">
+        <Button x:Name="UploadFileButton" Content="Завантажити файл" HorizontalAlignment="Right" Width="173" Click="UploadFileButtonClick" Margin="0,10,10,0" Height="39" VerticalAlignment="Top"/>
+        <Button x:Name="ClassifyDataButton" Content="   Поділити на класи" HorizontalAlignment="Right" VerticalAlignment="Top" Height="39" Width="173" Margin="0,54,10,0" HorizontalContentAlignment="Left" Click="ClassifyDataButtonClick"/>
+        <TextBox x:Name="ClassesAmountTextBox" HorizontalAlignment="Right" Margin="0,59,18,0" TextWrapping="Wrap" Text="..." VerticalAlignment="Top" Width="44" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextChanged="ClassesAmountTextBoxTextChanged"/>
+        <DataGrid x:Name="ClassedDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="433,10,0,0" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" Height="205" VerticalAlignment="Top" HorizontalAlignment="Left" Width="473">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" CanUserResize="False" Width="30"/>
                 <DataGridTextColumn Header="Межі класу" CanUserResize="False" Width="120"/>
@@ -28,6 +28,6 @@
                 <DataGridTextColumn Header="Значення емп. функції" CanUserResize="False" FontSize="12" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-
+        <WpfPlot HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,220,0,0" Height="260" Width="418"/>
     </Grid>
 </Window>

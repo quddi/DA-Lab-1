@@ -9,8 +9,6 @@ namespace DA_Lab_1
 {
     static class DataLoader
     {
-        private static readonly CultureInfo _culture = CultureInfo.InvariantCulture;
-
         public static List<double>? LoadValues()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -48,7 +46,7 @@ namespace DA_Lab_1
 
                     foreach (string token in tokens)
                     {
-                        if (double.TryParse(token, _culture, out double number))
+                        if (double.TryParse(token, out double number))
                             numbers.Add(number);
                         else
                             MessageBox.Show($"Помилка при зчитуванні числа: {token}");
