@@ -1,4 +1,5 @@
 ﻿using DA_Lab_1;
+using ScottPlot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,8 @@ namespace DA_Lab_1
             CreateGrouppedDataGrid();
 
             PrepareClassifiedDataGrid();
+
+            PrepareBarChart();
         
             GrouppedDataGrid.IsReadOnly = true;
         }
@@ -148,6 +151,8 @@ namespace DA_Lab_1
             _datas[typeof(ClassifiedData)] = classifiedDatas.ToGeneralDataList();
 
             FillClassifiedDatasGrid(classifiedDatas);
+
+            UpdateBarChart();
         }
 
         private void FillClassifiedDatasGrid(List<ClassifiedData> classifiedDatas)
@@ -170,10 +175,37 @@ namespace DA_Lab_1
 
         #region Bar chart
 
-        private void DrawBarChart()
+        private void PrepareBarChart()
         {
-            double[] data = { 10, 15, 8, 12, 5 };
+            HistogramPlot.Configuration.Pan = false;
+            HistogramPlot.Configuration.Zoom = false;
 
+            var plot = HistogramPlot.Plot;
+
+            plot.Title("Гістограма і ядерна оцінка"); 
+            plot.YAxis.Label("Кількість");
+            plot.XAxis.Label("Значення");
+        }
+
+        private void UpdateBarChart()
+        {
+            var classifiedDatas = _datas[typeof(ClassifiedData)]
+                .Cast<ClassifiedData>()
+                .OrderBy(data => data.Edges.Min)
+                .ToList();
+
+            var scottPlot = HistogramPlot.Plot;
+
+            scottPlot.Clear();
+
+            var bar = scottPlot.AddBar(
+                values: classifiedDatas.Select(data => data.Frequency).ToArray(), 
+                positions: classifiedDatas.Select(data => data.Edges.Min).ToArray()
+                );
+
+            bar.BarWidth = 0.5;
+
+            HistogramPlot.Refresh();
         }
 
         #endregion

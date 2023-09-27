@@ -46,7 +46,9 @@ namespace DA_Lab_1
 
                     foreach (string token in tokens)
                     {
-                        if (double.TryParse(token, out double number))
+                        var modifiedToken = token.Replace('.', ',');
+
+                        if (double.TryParse(modifiedToken, out double number))
                             numbers.Add(number);
                         else
                             MessageBox.Show($"Помилка при зчитуванні числа: {token}");

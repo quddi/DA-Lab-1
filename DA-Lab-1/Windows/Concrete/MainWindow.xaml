@@ -28,6 +28,6 @@
                 <DataGridTextColumn Header="Значення емп. функції" CanUserResize="False" FontSize="12" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <WpfPlot HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,220,0,0" Height="260" Width="418"/>
+        <WpfPlot x:Name="HistogramPlot" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,220,0,0" Height="260" Width="418"/>
     </Grid>
 </Window>
