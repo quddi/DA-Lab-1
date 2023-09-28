@@ -30,7 +30,8 @@ namespace DA_Lab_1
 
                 var suitableDatas = (i == result.Count - 1)
                     ? data.Where(data => (leftEdge <= data.VariantValue && data.VariantValue < rightEdge))
-                    : data.Where(data => (leftEdge <= data.VariantValue && data.VariantValue <= rightEdge));
+                    : data.Where(data => (leftEdge <= data.VariantValue && data.VariantValue <= rightEdge))
+                    .ToList();
 
                 var frequency = suitableDatas.Sum(data => data.Frequency);
 

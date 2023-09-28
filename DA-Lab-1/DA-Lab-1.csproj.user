@@ -7,11 +7,17 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Windows\Concrete\CharacteristicsWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\Concrete\TestWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Windows\Concrete\CharacteristicsWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\Concrete\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

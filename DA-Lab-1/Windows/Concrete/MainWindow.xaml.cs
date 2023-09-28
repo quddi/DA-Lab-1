@@ -203,7 +203,9 @@ namespace DA_Lab_1
                 positions: classifiedDatas.Select(data => data.Edges.Min).ToArray()
                 );
 
-            bar.BarWidth = 0.5;
+            var edges = classifiedDatas[0].Edges;
+
+            bar.BarWidth = edges.Max - edges.Min;
 
             HistogramPlot.Refresh();
         }
