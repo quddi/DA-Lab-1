@@ -12,9 +12,9 @@
 
         public double EmpericFunctionValue { get; set; }
 
-        public string FormattedRelativeFrequency => RelativeFrequency.ToString("0.0000");
+        public string FormattedRelativeFrequency => RelativeFrequency.ToFormattedString();
 
 
-        public string FormattedEmpericFunctionValue => EmpericFunctionValue.ToString("0.0000");
+        public string FormattedEmpericFunctionValue => EmpericFunctionValue.ToFormattedString();
     }
 }

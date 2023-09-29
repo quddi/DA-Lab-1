@@ -174,7 +174,6 @@ namespace DA_Lab_1
         #endregion
 
         #region Bar chart
-
         private void PrepareBarChart()
         {
             HistogramPlot.Configuration.Pan = false;
@@ -210,6 +209,20 @@ namespace DA_Lab_1
             HistogramPlot.Refresh();
         }
 
+        #endregion
+
+        #region Characteristics
+        private void ComputeCharacteristicsButtonClick(object sender, RoutedEventArgs e)
+        {
+            var rowDatas = _datas[typeof(RowData)]?.ToTemplateDataList<RowData>();
+
+            if (rowDatas == null)
+                throw new InvalidOperationException($"Для розрахунку характеристик завантажте дані!");
+
+            var characteristicsWindow = (CharacteristicsWindow)WindowsResponsible.ShowWindow<CharacteristicsWindow>();
+
+            characteristicsWindow.InitializeComponent(new List<RowData>(rowDatas));
+        }
         #endregion
     }
 }

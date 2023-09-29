@@ -44,5 +44,10 @@ namespace DA_Lab_1
         {
             return originEnumerable.Cast<T>().ToList();
         }
+
+        public static string ToFormattedString(this double value)
+        {
+            return value.ToString("0.0000");
+        }
     }
 }

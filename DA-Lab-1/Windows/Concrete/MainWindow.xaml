@@ -29,5 +29,6 @@
             </DataGrid.Columns>
         </DataGrid>
         <WpfPlot x:Name="HistogramPlot" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,220,0,0" Height="260" Width="418"/>
+        <Button x:Name="ComputeCharacteristicsButton" Content="Обрахувати характеристики" HorizontalAlignment="Right" Width="173" Click="ComputeCharacteristicsButtonClick" Margin="0,98,10,0" Height="39" VerticalAlignment="Top"/>
     </Grid>
 </Window>

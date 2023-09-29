@@ -14,10 +14,10 @@ namespace DA_Lab_1
 
         public double EmpericFunctionValue { get; set; }
 
-        public string FormattedEdges => string.Format($"[{Edges.Min:0.0000}, {Edges.Max:0.0000}]");
+        public string FormattedEdges => string.Format($"[{Edges.Min.ToFormattedString()}, {Edges.Max.ToFormattedString()}]");
 
-        public string FormattedRelativeFrequency => RelativeFrequency.ToString("0.0000");
+        public string FormattedRelativeFrequency => RelativeFrequency.ToFormattedString();
 
-        public string FormattedEmpericFunctionValue => EmpericFunctionValue.ToString("0.0000");
+        public string FormattedEmpericFunctionValue => EmpericFunctionValue.ToFormattedString();
     }
 }
