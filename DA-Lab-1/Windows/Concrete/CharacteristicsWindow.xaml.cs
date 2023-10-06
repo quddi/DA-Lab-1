@@ -79,7 +79,7 @@ namespace DA_Lab_1
             var j = (int)(count / 2 - uP * Math.Sqrt(count) / 2);
             var k = (int)(count / 2 + 1 + uP * Math.Sqrt(count) / 2);
 
-            MedianTrustIntervalText.Text = string.Format($"[{rowDatas[j].VariantValue}; {rowDatas[k].VariantValue}]");
+            MedianTrustIntervalText.Text = string.Format($"[{rowDatas[j].VariantValue.ToFormattedString()}; {rowDatas[k].VariantValue.ToFormattedString()}]");
         }
 
         private void ComputeStandardDeviation()
@@ -98,6 +98,17 @@ namespace DA_Lab_1
             _standardDeviation = Math.Sqrt(_variance);
 
             StandardDeviationGradeText.Text = _standardDeviation.ToFormattedString();
+
+            var count = _datas.Count;
+
+            var studentQuantile = GetStudentDistributionQuantile(1 - _alpha / 2, count - 1);
+
+            var sigma = GetSampleMeanSquaredStandardDeviation(_standardDeviation, count);
+
+            var first = _standardDeviation - studentQuantile * sigma;
+            var second = _standardDeviation + studentQuantile * sigma;
+
+            StandardDeviationTrustIntervalText.Text = string.Format($"[{first.ToFormattedString()}; {second.ToFormattedString()}]");
         }
 
         private void ComputeSkewnessCoefficient()
@@ -203,6 +214,9 @@ namespace DA_Lab_1
 
             return uP + (g1 / v) + (g2 / Math.Pow(uP, 2)) + (g3 / Math.Pow(uP, 3)) + (g4 / Math.Pow(uP, 4));
         }
+
+        //Sigma
+        private double GetSampleMeanSquaredStandardDeviation(double S, int N) => S / Math.Sqrt(2 * N);
 
         #endregion
     }
