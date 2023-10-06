@@ -74,6 +74,8 @@ namespace DA_Lab_1
 
             var sigma = GetMeanSquaredStandardDeviation(_standardDeviation, count);
 
+            MeanMSDEText.Text = sigma.ToFormattedString();
+
             var first = _mean - studentQuantile * sigma;
             var second = _mean + studentQuantile * sigma;
 
@@ -127,6 +129,8 @@ namespace DA_Lab_1
 
             var sigma = GetSampleMeanSquaredStandardDeviation(_standardDeviation, count);
 
+            StandardDeviationMSDEText.Text = sigma.ToFormattedString();
+
             var first = _standardDeviation - studentQuantile * sigma;
             var second = _standardDeviation + studentQuantile * sigma;
 
@@ -158,6 +162,8 @@ namespace DA_Lab_1
 
             var sigma = GetSkewnessCoefficientRootMeanSquareDeviation(count);
 
+            SkewnessCoefficientMSDEText.Text = sigma.ToFormattedString();
+
             var first = _secondSkewnessCoefficient - studentQuantile * sigma;
             var second = _secondSkewnessCoefficient + studentQuantile * sigma;
 
@@ -188,6 +194,8 @@ namespace DA_Lab_1
             var studentQuantile = GetStudentDistributionQuantile(1 - _alpha / 2, count - 1);
 
             var sigma = GetKurtosisCoefficientRootMeanSquareDeviation(count);
+
+            KurtosisCoefficientMSDEText.Text = sigma.ToFormattedString();
 
             var first = _secondKurtosisCoefficient - studentQuantile * sigma;
             var second = _secondKurtosisCoefficient + studentQuantile * sigma;
