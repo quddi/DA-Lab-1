@@ -56,6 +56,28 @@ namespace DA_Lab_1
             _mean = _datas.Average(data => data.VariantValue);
 
             MeanGradeText.Text = _mean.ToFormattedString();
+
+            var count = _datas.Count;
+
+            var studentQuantile = GetStudentDistributionQuantile(1 - _alpha / 2, count - 1);
+
+            var sum = _datas.Sum(data =>
+            {
+                var delta = data.VariantValue - _mean;
+
+                return delta * delta;
+            });
+
+            _variance = sum / (_datas.Count - 1); //S^2
+
+            _standardDeviation = Math.Sqrt(_variance);
+
+            var sigma = GetMeanSquaredStandardDeviation(_standardDeviation, count);
+
+            var first = _mean - studentQuantile * sigma;
+            var second = _mean + studentQuantile * sigma;
+
+            MeanTrustIntervalText.Text = string.Format($"[{first.ToFormattedString()}; {second.ToFormattedString()}]");
         }
 
         private void ComputeMedian() 
@@ -134,7 +156,7 @@ namespace DA_Lab_1
 
             var studentQuantile = GetStudentDistributionQuantile(1 - _alpha / 2, count - 1);
 
-            var sigma = GetAsymmetryCoefficientRootMeanSquareDeviation(count);
+            var sigma = GetSkewnessCoefficientRootMeanSquareDeviation(count);
 
             var first = _secondSkewnessCoefficient - studentQuantile * sigma;
             var second = _secondSkewnessCoefficient + studentQuantile * sigma;
@@ -157,11 +179,20 @@ namespace DA_Lab_1
                 return delta * delta * delta * delta;
             });
 
-            var firstKurtosisCoeficient = (sum / (count * shiftedVariance * shiftedVariance)) - 3;
+            var firstKurtosisCoefficient = (sum / (count * shiftedVariance * shiftedVariance)) - 3;
 
-            _secondKurtosisCoefficient = (firstKurtosisCoeficient + 6.0 / (count + 1)) * ((count * count - 1) / ((count - 2) * (count - 3)));
+            _secondKurtosisCoefficient = (firstKurtosisCoefficient + 6.0 / (count + 1)) * ((count * count - 1) / ((count - 2) * (count - 3)));
 
             KurtosisCoefficientGradeText.Text = _secondKurtosisCoefficient.ToFormattedString();
+
+            var studentQuantile = GetStudentDistributionQuantile(1 - _alpha / 2, count - 1);
+
+            var sigma = GetKurtosisCoefficientRootMeanSquareDeviation(count);
+
+            var first = _secondKurtosisCoefficient - studentQuantile * sigma;
+            var second = _secondKurtosisCoefficient + studentQuantile * sigma;
+
+            KurtosisCoefficientTrustIntervalText.Text = string.Format($"[{first.ToFormattedString()}; {second.ToFormattedString()}]");
         }
 
         private void ComputeMin()
@@ -225,12 +256,20 @@ namespace DA_Lab_1
         }
 
         //Sigma
+        private double GetMeanSquaredStandardDeviation(double S, int N) => S / Math.Sqrt(N);
+
         private double GetSampleMeanSquaredStandardDeviation(double S, int N) => S / Math.Sqrt(2.0 * N);
 
-        private double GetAsymmetryCoefficientRootMeanSquareDeviation(int N) => Math.Sqrt(
+        private double GetSkewnessCoefficientRootMeanSquareDeviation(int N) => Math.Sqrt(
             (6.0 * N * (N - 1)) 
             / 
-            ((N - 2) * (N + 1) * (N + 3))
+            (((double)N - 2) * (N + 1) * (N + 3))
+            );
+
+        private double GetKurtosisCoefficientRootMeanSquareDeviation(int N) => Math.Sqrt(
+            (24.0 * N * (N - 1) * (N - 1))
+            /
+            (((double)N - 3) * (N - 2) * (N + 3) * (N + 5))
             );
 
         #endregion
