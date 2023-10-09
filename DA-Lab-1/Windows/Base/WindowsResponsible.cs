@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 
 namespace DA_Lab_1
@@ -8,24 +9,21 @@ namespace DA_Lab_1
     {
         private static Dictionary<Type, Window> _activeWindows = new Dictionary<Type, Window>()
         {
-            { typeof(MainWindow), new Window() }
+            { typeof(MainWindow), new MainWindow() }
         };
 
         public static Window MainWindow => _activeWindows[typeof(MainWindow)];
 
+        static WindowsResponsible()
+        {
+            MainWindow.Closing += OnWindowClosed;
+        }
+
         public static Window ShowWindow<T>() where T : Window, new()
         {
-            var key = typeof(T);
+            AddWindow(new T());
 
-            if (_activeWindows.ContainsKey(key))
-            {
-                _activeWindows[key].Close();
-                _activeWindows[key] = new T();
-            }
-            else
-            {
-                _activeWindows.Add(typeof(T), new T());
-            }
+            var key = typeof(T);
 
             _activeWindows[key].Show();
 
@@ -41,7 +39,57 @@ namespace DA_Lab_1
 
             _activeWindows[key].Close();
 
-            _activeWindows.Remove(key);
+            RemoveWindow(_activeWindows[key]);
+        }
+
+        public static Window? GetWindow<T>() where T : Window
+        {
+            return _activeWindows.GetValue(typeof(T));
+        }
+
+        public static bool IsWindowOpened<T>() where T : Window
+        {
+            return _activeWindows.ContainsKey(typeof(T));
+        }
+
+        private static void AddWindow(Window window)
+        {
+            var type = window.GetType();
+
+            if (_activeWindows.ContainsKey(type))
+            {
+                _activeWindows[type].Close();
+
+                _activeWindows[type].Closing -= OnWindowClosed;
+            }
+
+            _activeWindows[type] = window;
+
+            _activeWindows[type].Closing += OnWindowClosed;
+        }
+
+        private static void RemoveWindow(Window window)
+        {
+            var type = window.GetType();
+
+            if (!_activeWindows.ContainsKey(type))
+                return;
+
+            _activeWindows[type].Closing -= OnWindowClosed;
+
+            _activeWindows.Remove(type);
+
+            if (_activeWindows.Count == 0)
+                Environment.Exit(0);
+        }
+
+        private static void OnWindowClosed(object? sender, CancelEventArgs e)
+        {
+            var window = (Window)sender;
+
+            window.Closing -= OnWindowClosed;
+
+            _activeWindows.Remove(window.GetType());
         }
     }
 }

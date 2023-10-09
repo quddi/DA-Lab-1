@@ -22,7 +22,7 @@ namespace DA_Lab_1
         {
             InitializeComponent();
 
-            CreateGrouppedDataGrid();
+            CreateGroupedDataGrid();
 
             PrepareClassifiedDataGrid();
 
@@ -32,7 +32,7 @@ namespace DA_Lab_1
         }
 
         #region Groupped data
-        private void CreateGrouppedDataGrid()
+        private void CreateGroupedDataGrid()
         {
             GrouppedDataGrid.Columns.Clear();
 
@@ -98,10 +98,10 @@ namespace DA_Lab_1
 
             _datas.AddPair(typeof(GrouppedData), groupedDatas.ToGeneralDataList());
 
-            FillGrouppedDatasGrid(groupedDatas);
+            FillGroupedDatasGrid(groupedDatas);
         }
 
-        private void FillGrouppedDatasGrid(List<GrouppedData> groupedDatas)
+        private void FillGroupedDatasGrid(List<GrouppedData> groupedDatas)
         {
             GrouppedDataGrid.Items.Clear();
 
@@ -123,11 +123,11 @@ namespace DA_Lab_1
         private void ClassifyDataButtonClick(object sender, RoutedEventArgs e)
         {
             if (!_datas.ContainsKey(typeof(GrouppedData)))
-                throw new InvalidOperationException($"Для створення классифікованих данних необхідна наявність згрупованих даних!");
+                throw new InvalidOperationException($"Для створення класифікованих даних необхідна наявність згрупованих даних!");
 
-            var grouppedDatasAmount = _datas[typeof(GrouppedData)].Count;
+            var groupedDatasAmount = _datas[typeof(GrouppedData)].Count;
 
-            int amount = ExtentionsMethods.GetClassesAmount(grouppedDatasAmount);
+            int amount = ExtentionsMethods.GetClassesAmount(groupedDatasAmount);
 
             ClassesAmountTextBox.Text = "";
             ClassesAmountTextBox.Text = amount.ToString();
@@ -144,9 +144,9 @@ namespace DA_Lab_1
         {
             var parameters = new GrouppedToClassifiedConverterParameters() { ClassesAmount = _classesAmount };
 
-            var grouppedDatas = _datas[typeof(GrouppedData)].ToTemplateDataList<GrouppedData>();
+            var groupedDatas = _datas[typeof(GrouppedData)].ToTemplateDataList<GrouppedData>();
 
-            List<ClassifiedData> classifiedDatas = MainDataConverter.Handle<GrouppedData, ClassifiedData>(grouppedDatas, parameters);
+            List<ClassifiedData> classifiedDatas = MainDataConverter.Handle<GrouppedData, ClassifiedData>(groupedDatas, parameters);
             
             _datas[typeof(ClassifiedData)] = classifiedDatas.ToGeneralDataList();
 
@@ -159,8 +159,8 @@ namespace DA_Lab_1
         {
             ClassedDataGrid.Items.Clear();
 
-            foreach (var grouppedData in classifiedDatas)
-                ClassedDataGrid.Items.Add(grouppedData);
+            foreach (var groupedData in classifiedDatas)
+                ClassedDataGrid.Items.Add(groupedData);
         }
 
         private void ClassesAmountTextBoxTextChanged(object sender, TextChangedEventArgs e)
@@ -193,11 +193,11 @@ namespace DA_Lab_1
                 .OrderBy(data => data.Edges.Min)
                 .ToList();
 
-            var scottPlot = HistogramPlot.Plot;
+            var plot = HistogramPlot.Plot;
 
-            scottPlot.Clear();
+            plot.Clear();
 
-            var bar = scottPlot.AddBar(
+            var bar = plot.AddBar(
                 values: classifiedDatas.Select(data => data.Frequency).ToArray(), 
                 positions: classifiedDatas.Select(data => data.Edges.Min).ToArray()
                 );
@@ -207,6 +207,54 @@ namespace DA_Lab_1
             bar.BarWidth = edges.Max - edges.Min;
 
             HistogramPlot.Refresh();
+        }
+
+        private void BuildKernelDensityEstimationFunctionButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!WindowsResponsible.IsWindowOpened<CharacteristicsWindow>())
+            {
+                MessageBox.Show("Для побудови функції ядерної оцінки відкрийте вікно характеристик і натисніть ще раз!");
+                return;
+            }
+
+            var plot = HistogramPlot.Plot;
+
+            plot.AddFunction(GetKernelDensityEstimation);
+
+            HistogramPlot.Refresh();
+        }
+
+        #endregion
+
+        #region Comulative Probability Histogram
+        private void BuildCumulativeProbabilityHistogramButtonClick(object sender, RoutedEventArgs e)
+        {
+            var plot = CumulativeProbabilityHistogram.Plot;
+
+            var key = typeof(GrouppedData);
+
+            if (!_datas.ContainsKey(key))
+            {
+                MessageBox.Show("Для побудови графіку емпіричної функції розподілу необхідна наявність сгрупованих даних!");
+                return;
+            }
+
+            plot.Clear();
+
+            var groupedDatas = _datas[key]
+                .ToTemplateDataList<GrouppedData>()
+                .OrderBy(data => data.EmpericFunctionValue);
+
+            var xs = groupedDatas.Select(data => data.VariantValue).ToArray();
+            var ys = groupedDatas.Select(data => data.EmpericFunctionValue).ToArray();
+
+            plot.AddScatterStep(xs, ys);
+            plot.SetAxisLimits(yMin: 0, yMax: 1);
+            plot.Title("Графік емпіричної функції розподілу");
+            plot.XAxis.Label("Значення");
+            plot.YAxis.Label("Вірогідність");
+
+            CumulativeProbabilityHistogram.Refresh();
         }
 
         #endregion
@@ -224,5 +272,44 @@ namespace DA_Lab_1
             characteristicsWindow.InitializeComponent(new List<RowData>(rowDatas));
         }
         #endregion
+
+        #region Computing methods
+
+        private double GetBandwidthByScott(double S, int N) => S / Math.Pow(N, 5.0);
+
+        private double GetCore(double u)
+        {
+            if (Math.Abs(u) > Math.Sqrt(5.0)) return 0;
+
+            return ((1.0 - u * u / 5.0) * 3) / (4 * Math.Sqrt(5.0));
+        }
+
+        private double? GetKernelDensityEstimation(double x)
+        {
+            var rowDatas = _datas[typeof(RowData)].ToTemplateDataList<RowData>();
+
+            var N = rowDatas.Count;
+
+            var characteristicsWindow = WindowsResponsible.GetWindow<CharacteristicsWindow>() as CharacteristicsWindow;
+
+            var S = characteristicsWindow.StandardDeviation;
+
+            var bandwidth = GetBandwidthByScott(S, N);
+
+            var denominator = N * bandwidth;
+
+            var sum = rowDatas.Select(data => 
+            {
+                var delta = (x - data.VariantValue);
+
+                var u = delta / bandwidth;
+
+                return GetCore(u);
+            }).Sum();
+        
+            return sum / denominator;
+        }
+
+        #endregion        
     }
 }

@@ -26,6 +26,8 @@ namespace DA_Lab_1
         private const double _d2 = 0.1892659;
         private const double _d3 = 0.001308;
 
+        public double StandardDeviation => _standardDeviation;
+
         public CharacteristicsWindow() 
         { 
             InitializeComponent(); 
@@ -37,7 +39,7 @@ namespace DA_Lab_1
 
             ComputeCharacteristics();
         }
-
+      
         private void ComputeCharacteristics()
         {
             ComputeMean();
