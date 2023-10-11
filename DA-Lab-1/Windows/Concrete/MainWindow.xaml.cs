@@ -216,10 +216,8 @@ namespace DA_Lab_1
 
             //plot.AddFunction(GetKernelDensityEstimation);
 
-            var characteristicsWindow = WindowsResponsible.GetWindow<CharacteristicsWindow>() as CharacteristicsWindow;
-
-            var min = characteristicsWindow.Min;
-            var max = characteristicsWindow.Max;
+            var min = Characteristics.Min.Value;
+            var max = Characteristics.Max.Value;
 
             var pointsCount = 1000;
 
@@ -310,7 +308,7 @@ namespace DA_Lab_1
 
             var characteristicsWindow = WindowsResponsible.GetWindow<CharacteristicsWindow>() as CharacteristicsWindow;
 
-            var S = characteristicsWindow.StandardDeviation;
+            var S = Characteristics.StandardDeviation.Value;
 
             var bandwidth = GetBandwidthByScott(S, N);
 
