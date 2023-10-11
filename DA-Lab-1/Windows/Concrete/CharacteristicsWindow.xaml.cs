@@ -28,6 +28,10 @@ namespace DA_Lab_1
 
         public double StandardDeviation => _standardDeviation;
 
+        public double Min => _min;
+
+        public double Max => _max;
+
         public CharacteristicsWindow() 
         { 
             InitializeComponent(); 

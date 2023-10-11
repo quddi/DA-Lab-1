@@ -1,11 +1,9 @@
-﻿using DA_Lab_1;
-using ScottPlot;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using Binding = System.Windows.Data.Binding;
 
 namespace DA_Lab_1
@@ -176,9 +174,6 @@ namespace DA_Lab_1
         #region Bar chart
         private void PrepareBarChart()
         {
-            HistogramPlot.Configuration.Pan = false;
-            HistogramPlot.Configuration.Zoom = false;
-
             var plot = HistogramPlot.Plot;
 
             plot.Title("Гістограма і ядерна оцінка"); 
@@ -219,7 +214,25 @@ namespace DA_Lab_1
 
             var plot = HistogramPlot.Plot;
 
-            plot.AddFunction(GetKernelDensityEstimation);
+            //plot.AddFunction(GetKernelDensityEstimation);
+
+            var characteristicsWindow = WindowsResponsible.GetWindow<CharacteristicsWindow>() as CharacteristicsWindow;
+
+            var min = characteristicsWindow.Min;
+            var max = characteristicsWindow.Max;
+
+            var pointsCount = 1000;
+
+            var delta = (max - min) / pointsCount;
+
+            for (int i = 0; i < pointsCount + 1; i++)
+            {
+                var x = min + i * delta;
+
+                var y = GetKernelDensityEstimation(x);
+
+                plot.AddPoint(x, y, Color.Red);
+            }
 
             HistogramPlot.Refresh();
         }
@@ -275,16 +288,21 @@ namespace DA_Lab_1
 
         #region Computing methods
 
-        private double GetBandwidthByScott(double S, int N) => S / Math.Pow(N, 5.0);
+        private double GetBandwidthByScott(double S, int N) => S / Math.Pow(N, 0.2);
 
-        private double GetCore(double u)
+        private double GetEpanchikovCore(double u)
         {
             if (Math.Abs(u) > Math.Sqrt(5.0)) return 0;
 
             return ((1.0 - u * u / 5.0) * 3) / (4 * Math.Sqrt(5.0));
         }
 
-        private double? GetKernelDensityEstimation(double x)
+        private double GetGaussCore(double u)
+        {
+            return Math.Exp(-1.0 * u * u / 2) / Math.Sqrt(2 * Math.PI);
+        }
+
+        private double GetKernelDensityEstimation(double x)
         {
             var rowDatas = _datas[typeof(RowData)].ToTemplateDataList<RowData>();
 
@@ -304,7 +322,9 @@ namespace DA_Lab_1
 
                 var u = delta / bandwidth;
 
-                return GetCore(u);
+                var result = GetGaussCore(u);
+
+                return result;
             }).Sum();
         
             return sum / denominator;
