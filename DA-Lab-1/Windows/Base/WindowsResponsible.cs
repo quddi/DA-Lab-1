@@ -35,11 +35,13 @@ namespace DA_Lab_1
             var key = typeof(T);
 
             if (!_activeWindows.ContainsKey(key))
-                throw new InvalidOperationException($"Trying to hide {key} window, but there was no one of this type!");
+                return;
 
-            _activeWindows[key].Close();
+            var window = _activeWindows[key];
 
-            RemoveWindow(_activeWindows[key]);
+            RemoveWindow(window);
+
+            window.Close();
         }
 
         public static Window? GetWindow<T>() where T : Window

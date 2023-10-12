@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DA_Lab_1
 {
-    internal class GrouppedToClassifiedDataConverter : DataConverter<GrouppedData, ClassifiedData>
+    internal class GroupedToClassifiedDataConverter : DataConverter<GrouppedData, ClassifiedData>
     {
         public override Type? ParametersType => typeof(GrouppedToClassifiedConverterParameters);
 

@@ -90,6 +90,10 @@ namespace DA_Lab_1
                 return;
             }
 
+            Characteristics.Reset();
+
+            WindowsResponsible.HideWindow<CharacteristicsWindow>();
+
             _datas.AddPair(typeof(RowData), rowDatas.ToGeneralDataList());
 
             var groupedDatas = MainDataConverter.Handle<RowData, GrouppedData>(rowDatas);
@@ -222,7 +226,7 @@ namespace DA_Lab_1
             {
                 var x = Characteristics.Min + i * delta;
 
-                var y = GetKernelDensityEstimation(x);
+                var y = Characteristics.GetKernelDensityEstimation(x);
 
                 plot.AddPoint(x, y, Color.Red);
             }
@@ -278,51 +282,5 @@ namespace DA_Lab_1
             characteristicsWindow.InitializeComponent(new List<RowData>(rowDatas));
         }
         #endregion
-
-        #region Computing methods
-
-        private double GetBandwidthByScott(double S, int N) => S / Math.Pow(N, 0.2);
-
-        private double GetEpanchikovCore(double u)
-        {
-            if (Math.Abs(u) > Math.Sqrt(5.0)) return 0;
-
-            return ((1.0 - u * u / 5.0) * 3) / (4 * Math.Sqrt(5.0));
-        }
-
-        private double GetGaussCore(double u)
-        {
-            return Math.Exp(-1.0 * u * u / 2) / Math.Sqrt(2 * Math.PI);
-        }
-
-        private double GetKernelDensityEstimation(double x)
-        {
-            var rowDatas = _datas[typeof(RowData)].ToTemplateDataList<RowData>();
-
-            var N = rowDatas.Count;
-
-            var characteristicsWindow = WindowsResponsible.GetWindow<CharacteristicsWindow>() as CharacteristicsWindow;
-
-            var S = Characteristics.StandardDeviation;
-
-            var bandwidth = GetBandwidthByScott(S, N);
-
-            var denominator = N * bandwidth;
-
-            var sum = rowDatas.Select(data => 
-            {
-                var delta = (x - data.VariantValue);
-
-                var u = delta / bandwidth;
-
-                var result = GetGaussCore(u);
-
-                return result;
-            }).Sum();
-        
-            return sum / denominator;
-        }
-
-        #endregion        
     }
 }

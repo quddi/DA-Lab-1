@@ -35,6 +35,7 @@ namespace DA_Lab_1
         private static double? _shiftedVariance;
         private static double? _firstSkewnessCoefficient;
         private static double? _firstKurtosisCoefficient;
+        private static double? _bandwidth;
         private static int? _count;
 
         public static double Mean
@@ -248,6 +249,16 @@ namespace DA_Lab_1
             }
         }
 
+        public static double Bandwidth
+        {
+            get
+            {
+                if (_bandwidth == null) ComputeBandwidth();
+
+                return _bandwidth.Value;
+            }
+        }
+
         private const double Alpha = 0.05;
         private const double C0 = 2.515517;
         private const double C1 = 0.802853;
@@ -285,6 +296,7 @@ namespace DA_Lab_1
             _shiftedVariance = null;
             _firstSkewnessCoefficient = null;
             _firstKurtosisCoefficient = null;
+            _bandwidth = null;
             _count = null;
         }
 
@@ -409,6 +421,38 @@ namespace DA_Lab_1
         private static void ComputeShiftedVariance()
         {
             _shiftedVariance = Variance * (Count - 1) / Count;
+        }
+
+        private static void ComputeBandwidth()
+        {
+            _bandwidth = StandardDeviation / Math.Pow(Count, 0.2);
+        }
+
+        public static double GetGaussCore(double u)
+        {
+            return Math.Exp(-1.0 * u * u / 2) / Math.Sqrt(2 * Math.PI);
+        }
+
+        public static double GetKernelDensityEstimation(double x)
+        {
+            var rowDatas = _datas.ToTemplateDataList<RowData>();
+
+            var characteristicsWindow = WindowsResponsible.GetWindow<CharacteristicsWindow>() as CharacteristicsWindow;
+
+            var denominator = Count * Bandwidth;
+
+            var sum = rowDatas.Select(data =>
+            {
+                var delta = (x - data.VariantValue);
+
+                var u = delta / Bandwidth;
+
+                var result = GetGaussCore(u);
+
+                return result;
+            }).Sum();
+
+            return sum / denominator;
         }
 
         private static double GetQuantileT(double a) => Math.Sqrt(-2 * Math.Log2(a));
