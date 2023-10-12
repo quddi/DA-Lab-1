@@ -1,25 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace DA_Lab_1
 {
-    internal static class ExtentionsMethods
+    internal static class ExtensionsMethods
     {
-        public static int GetClassesAmount(int elementsAmount)
+        private static readonly Color[] RandomColorsPool = new Color[]
         {
-            if (elementsAmount < 100)
-            {
-                var sqrt = (int)Math.Sqrt(elementsAmount);
+            Color.Red,
+            Color.Green, 
+            Color.Magenta,
+            Color.Cyan,
+            Color.Bisque,
+            Color.Gray,
+            Color.Black,
+            Color.Chocolate,
+            Color.Fuchsia,
+            Color.Firebrick
+        };
 
-                return sqrt % 2 == 0 ? sqrt - 1 : sqrt;
-            }
-            else
-            {
-                var sqrt = (int)Math.Pow(elementsAmount, 1.0/3.0);
+        private static readonly Random Random = new();
 
-                return sqrt % 2 == 0 ? sqrt - 1 : sqrt;
-            }
+        public static Color GetRandomColor()
+        {
+            return RandomColorsPool[Random.Next(0, RandomColorsPool.Length)];
         }
 
         public static T2 GetValue<T1, T2>(this IDictionary<T1, T2> dictionary, T1 key)

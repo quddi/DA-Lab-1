@@ -12,8 +12,6 @@ namespace DA_Lab_1
     {
         private Dictionary<Type, List<IData>> _datas = new();
 
-        private int _classesAmount;
-
         private const int MinClassifiedDatasAmount = 1;
         private const int KDEPointsAmount = 1000;
 
@@ -95,6 +93,8 @@ namespace DA_Lab_1
 
             Reset();
 
+            Characteristics.SetDatas(rowDatas);
+
             _datas.AddPair(typeof(RowData), rowDatas.ToGeneralDataList());
 
             var groupedDatas = MainDataConverter.Handle<RowData, GrouppedData>(rowDatas);
@@ -147,22 +147,34 @@ namespace DA_Lab_1
 
             var groupedDatasAmount = _datas[typeof(GrouppedData)].Count;
 
-            int amount = ExtentionsMethods.GetClassesAmount(groupedDatasAmount);
+            var parsed = int.TryParse(ClassesAmountTextBox.Text, out int classesCount);
 
-            ClassesAmountTextBox.Text = "";
-            ClassesAmountTextBox.Text = amount.ToString();
+            var parsedIsValid = MinClassifiedDatasAmount < classesCount && classesCount < _datas[typeof(GrouppedData)].Count; 
+
+            if (!parsed || !parsedIsValid)
+            {
+                MessageBox.Show("Кількість класів або не було введено, або було введено некоректно, тому значення розраховано автоматично!");
+
+                classesCount = Characteristics.ClassesCount;
+
+                ClassesAmountTextBox.Text = classesCount.ToString();
+            }
+            else
+            {
+                Characteristics.SetClassesCount(classesCount);
+            }
+
+            SetClassesAmount();
         }
 
-        private void SetClassesAmount(int amount)
+        private void SetClassesAmount()
         {
-            _classesAmount = amount;
-
             UpdateClassifiedDatas();
         }
 
         private void UpdateClassifiedDatas()
         {
-            var parameters = new GrouppedToClassifiedConverterParameters() { ClassesAmount = _classesAmount };
+            var parameters = new GrouppedToClassifiedConverterParameters() { ClassesAmount = Characteristics.ClassesCount };
 
             var groupedDatas = _datas[typeof(GrouppedData)].ToTemplateDataList<GrouppedData>();
 
@@ -181,15 +193,6 @@ namespace DA_Lab_1
 
             foreach (var groupedData in classifiedDatas)
                 ClassedDataGrid.Items.Add(groupedData);
-        }
-
-        private void ClassesAmountTextBoxTextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!int.TryParse(ClassesAmountTextBox.Text, out int classesAmount)) return;
-
-            if (MinClassifiedDatasAmount > classesAmount || classesAmount > _datas[typeof(GrouppedData)].Count) return;
-        
-            SetClassesAmount(classesAmount);
         }
         #endregion
 
@@ -234,9 +237,26 @@ namespace DA_Lab_1
                 return;
             }
 
+            var parsed = double.TryParse(BandWidthTextBox.Text, out double bandwidth);
+
+            if (!parsed)
+            {
+                MessageBox.Show("Ширину вікна або не було введено, або було введено некоректно, тому значення розраховано автоматично!");
+
+                Characteristics.SetBandwidth(null);
+
+                BandWidthTextBox.Text = Characteristics.Bandwidth.ToFormattedString();
+            }
+            else
+            {
+                Characteristics.SetBandwidth(bandwidth);
+            }
+
             var plot = HistogramPlot.Plot;
 
             var delta = (Characteristics.Max - Characteristics.Min) / KDEPointsAmount;
+
+            var pointsColor = ExtensionsMethods.GetRandomColor();
 
             for (int i = 0; i < KDEPointsAmount + 1; i++)
             {
@@ -244,7 +264,7 @@ namespace DA_Lab_1
 
                 var y = Characteristics.GetKernelDensityEstimation(x);
 
-                plot.AddPoint(x, y, Color.Red);
+                plot.AddPoint(x, y, pointsColor);
             }
 
             HistogramPlot.Refresh();

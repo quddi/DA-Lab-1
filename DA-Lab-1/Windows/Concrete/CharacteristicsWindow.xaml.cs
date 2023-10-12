@@ -25,8 +25,6 @@ namespace DA_Lab_1
         {
             if (_datas == null)
                 throw new InvalidOperationException($"Для розрахунку необхідні row datas!");
-
-            Characteristics.SetDatas(_datas);
             
             DisplayCharacteristics();
         }

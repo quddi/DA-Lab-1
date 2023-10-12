@@ -38,6 +38,7 @@ namespace DA_Lab_1
         private static double? _bandwidth;
         private static double? _classWidth;
         private static int? _count;
+        private static int? _classesCount;
 
         public static double Mean
         {
@@ -260,6 +261,16 @@ namespace DA_Lab_1
             }
         }
 
+        public static int ClassesCount
+        {
+            get
+            {
+                if (_classesCount == null) ComputeClassesCount();
+
+                return _classesCount.Value;
+            }
+        }
+
         public static double ClassWidth => _classWidth.Value;
 
         private const double Alpha = 0.05;
@@ -302,12 +313,23 @@ namespace DA_Lab_1
             _bandwidth = null;
             _classWidth = null;
             _count = null;
+            _classesCount = null;
         }
 
-        #region
+        #region Public setters
         public static void SetClassWidth(double value)
         {
             _classWidth = value;
+        }
+
+        public static void SetBandwidth(double? value) 
+        { 
+            _bandwidth = value;
+        }
+
+        public static void SetClassesCount(int? value)
+        {
+            _classesCount = value;
         }
         #endregion
 
@@ -437,6 +459,22 @@ namespace DA_Lab_1
         private static void ComputeBandwidth()
         {
             _bandwidth = StandardDeviation / Math.Pow(Count, 0.2);
+        }
+
+        private static void ComputeClassesCount()
+        {
+            if (Count < 100)
+            {
+                var sqrt = (int)Math.Sqrt(Count);
+
+                _classesCount = sqrt % 2 == 0 ? sqrt - 1 : sqrt;
+            }
+            else
+            {
+                var sqrt = (int)Math.Pow(Count, 1.0 / 3.0);
+
+                _classesCount = sqrt % 2 == 0 ? sqrt - 1 : sqrt;
+            }
         }
 
         public static double GetGaussCore(double u)
