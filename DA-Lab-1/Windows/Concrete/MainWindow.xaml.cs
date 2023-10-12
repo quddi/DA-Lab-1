@@ -93,9 +93,7 @@ namespace DA_Lab_1
                 return;
             }
 
-            Characteristics.Reset();
-
-            WindowsResponsible.HideWindow<CharacteristicsWindow>();
+            Reset();
 
             _datas.AddPair(typeof(RowData), rowDatas.ToGeneralDataList());
 
@@ -110,8 +108,25 @@ namespace DA_Lab_1
         {
             GrouppedDataGrid.Items.Clear();
 
-            foreach (var grouppedData in groupedDatas)
-                GrouppedDataGrid.Items.Add(grouppedData);
+            foreach (var groupedData in groupedDatas)
+                GrouppedDataGrid.Items.Add(groupedData);
+        }
+
+        private void Reset()
+        {
+            Characteristics.Reset();
+
+            WindowsResponsible.HideWindow<CharacteristicsWindow>();
+
+            HistogramPlot.Plot.Clear();
+
+            CumulativeProbabilityHistogram.Plot.Clear();
+
+            CumulativeProbabilityHistogram.Refresh();
+
+            ClassedDataGrid.Items.Clear();
+
+            GrouppedDataGrid.Items.Clear();
         }
         #endregion
 
@@ -184,7 +199,7 @@ namespace DA_Lab_1
             var plot = HistogramPlot.Plot;
 
             plot.Title("Гістограма і ядерна оцінка"); 
-            plot.YAxis.Label("Кількість");
+            plot.YAxis.Label("Відносна частота");
             plot.XAxis.Label("Значення");
         }
 

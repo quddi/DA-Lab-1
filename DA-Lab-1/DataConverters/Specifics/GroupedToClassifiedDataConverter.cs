@@ -30,7 +30,7 @@ namespace DA_Lab_1
                 var leftEdge = minValue + Characteristics.ClassWidth * i;
                 var rightEdge = minValue + Characteristics.ClassWidth * (i + 1);
 
-                var suitableDatas = (i == result.Count - 1)
+                var suitableDatas = (i != concretizedParameters.ClassesAmount - 1)
                     ? data.Where(data => (leftEdge <= data.VariantValue && data.VariantValue < rightEdge))
                     : data.Where(data => (leftEdge <= data.VariantValue && data.VariantValue <= rightEdge))
                     .ToList();
@@ -39,7 +39,7 @@ namespace DA_Lab_1
 
                 double relativeFrequency = (double)frequency / rowDatasAmount;
 
-                var empericFunctionValue = (i == 0)
+                var empiricFunctionValue = (i == 0)
                     ? relativeFrequency
                     : relativeFrequency + result[i - 1].EmpericFunctionValue;
 
@@ -49,7 +49,7 @@ namespace DA_Lab_1
                     Edges = (leftEdge, rightEdge),
                     Frequency = frequency,
                     RelativeFrequency = relativeFrequency,
-                    EmpericFunctionValue = empericFunctionValue
+                    EmpericFunctionValue = empiricFunctionValue
                 };
 
                 result.Add(classifiedData);
