@@ -36,6 +36,7 @@ namespace DA_Lab_1
         private static double? _firstSkewnessCoefficient;
         private static double? _firstKurtosisCoefficient;
         private static double? _bandwidth;
+        private static double? _classWidth;
         private static int? _count;
 
         public static double Mean
@@ -259,6 +260,8 @@ namespace DA_Lab_1
             }
         }
 
+        public static double ClassWidth => _classWidth.Value;
+
         private const double Alpha = 0.05;
         private const double C0 = 2.515517;
         private const double C1 = 0.802853;
@@ -297,8 +300,16 @@ namespace DA_Lab_1
             _firstSkewnessCoefficient = null;
             _firstKurtosisCoefficient = null;
             _bandwidth = null;
+            _classWidth = null;
             _count = null;
         }
+
+        #region
+        public static void SetClassWidth(double value)
+        {
+            _classWidth = value;
+        }
+        #endregion
 
         #region Computing methods
 
@@ -435,13 +446,11 @@ namespace DA_Lab_1
 
         public static double GetKernelDensityEstimation(double x)
         {
-            var rowDatas = _datas.ToTemplateDataList<RowData>();
-
             var characteristicsWindow = WindowsResponsible.GetWindow<CharacteristicsWindow>() as CharacteristicsWindow;
 
             var denominator = Count * Bandwidth;
 
-            var sum = rowDatas.Select(data =>
+            var sum = _datas.Select(data =>
             {
                 var delta = (x - data.VariantValue);
 
@@ -452,7 +461,7 @@ namespace DA_Lab_1
                 return result;
             }).Sum();
 
-            return sum / denominator;
+            return sum * ClassWidth / denominator;
         }
 
         private static double GetQuantileT(double a) => Math.Sqrt(-2 * Math.Log2(a));

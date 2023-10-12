@@ -15,6 +15,7 @@ namespace DA_Lab_1
         private int _classesAmount;
 
         private const int MinClassifiedDatasAmount = 1;
+        private const int KDEPointsAmount = 1000;
 
         public MainWindow()
         {
@@ -197,8 +198,8 @@ namespace DA_Lab_1
             plot.Clear();
 
             var bar = plot.AddBar(
-                values: classifiedDatas.Select(data => data.Frequency).ToArray(), 
-                positions: classifiedDatas.Select(data => data.Edges.Min).ToArray()
+                values: classifiedDatas.Select(data => data.RelativeFrequency).ToArray(), 
+                positions: classifiedDatas.Select(data => (data.Edges.Min + data.Edges.Max) / 2).ToArray()
                 );
 
             var edges = classifiedDatas[0].Edges;
@@ -218,11 +219,9 @@ namespace DA_Lab_1
 
             var plot = HistogramPlot.Plot;
 
-            var pointsCount = 1000;
+            var delta = (Characteristics.Max - Characteristics.Min) / KDEPointsAmount;
 
-            var delta = (Characteristics.Max - Characteristics.Min) / pointsCount;
-
-            for (int i = 0; i < pointsCount + 1; i++)
+            for (int i = 0; i < KDEPointsAmount + 1; i++)
             {
                 var x = Characteristics.Min + i * delta;
 

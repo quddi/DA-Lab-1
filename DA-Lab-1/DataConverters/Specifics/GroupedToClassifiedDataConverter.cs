@@ -19,14 +19,16 @@ namespace DA_Lab_1
 
             var classWidth = (maxValue - minValue) / concretizedParameters.ClassesAmount;
 
+            Characteristics.SetClassWidth(classWidth);
+
             var rowDatasAmount = data.Sum(data => data.Frequency);
 
             var result = new List<ClassifiedData>();
 
             for (int i = 0; i < concretizedParameters.ClassesAmount; i++)
             {
-                var leftEdge = minValue + classWidth * i;
-                var rightEdge = minValue + classWidth * (i + 1);
+                var leftEdge = minValue + Characteristics.ClassWidth * i;
+                var rightEdge = minValue + Characteristics.ClassWidth * (i + 1);
 
                 var suitableDatas = (i == result.Count - 1)
                     ? data.Where(data => (leftEdge <= data.VariantValue && data.VariantValue < rightEdge))
