@@ -50,8 +50,9 @@ namespace DA_Lab_1 {
         public void InitializeComponent() {
             
             #line 5 "..\..\..\App.xaml"
+
             this.StartupUri = new System.Uri("Windows/Concrete/MainWindow.xaml", System.UriKind.Relative);
-            
+
             #line default
             #line hidden
         }

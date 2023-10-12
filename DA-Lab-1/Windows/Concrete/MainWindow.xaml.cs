@@ -21,6 +21,8 @@ namespace DA_Lab_1
         {
             InitializeComponent();
 
+            WindowsResponsible.Initialize(this);
+
             CreateGroupedDataGrid();
 
             PrepareClassifiedDataGrid();

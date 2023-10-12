@@ -5,18 +5,13 @@ using System.Windows;
 
 namespace DA_Lab_1
 {
-    internal static class WindowsResponsible
+    public static class WindowsResponsible
     {
-        private static Dictionary<Type, Window> _activeWindows = new Dictionary<Type, Window>()
-        {
-            { typeof(MainWindow), new MainWindow() }
-        };
+        private static Dictionary<Type, Window> _activeWindows = new();
 
-        public static Window MainWindow => _activeWindows[typeof(MainWindow)];
-
-        static WindowsResponsible()
+        public static void Initialize(Window mainWindow)
         {
-            MainWindow.Closing += OnWindowClosed;
+            AddWindow(mainWindow);
         }
 
         public static Window ShowWindow<T>() where T : Window, new()
@@ -60,9 +55,13 @@ namespace DA_Lab_1
 
             if (_activeWindows.ContainsKey(type))
             {
-                _activeWindows[type].Close();
+                var previousWindow = _activeWindows[type];
 
-                _activeWindows[type].Closing -= OnWindowClosed;
+                _activeWindows.Remove(type);
+
+                previousWindow.Close();
+
+                previousWindow.Closing -= OnWindowClosed;
             }
 
             _activeWindows[type] = window;
