@@ -214,18 +214,13 @@ namespace DA_Lab_1
 
             var plot = HistogramPlot.Plot;
 
-            //plot.AddFunction(GetKernelDensityEstimation);
-
-            var min = Characteristics.Min.Value;
-            var max = Characteristics.Max.Value;
-
             var pointsCount = 1000;
 
-            var delta = (max - min) / pointsCount;
+            var delta = (Characteristics.Max - Characteristics.Min) / pointsCount;
 
             for (int i = 0; i < pointsCount + 1; i++)
             {
-                var x = min + i * delta;
+                var x = Characteristics.Min + i * delta;
 
                 var y = GetKernelDensityEstimation(x);
 
@@ -308,7 +303,7 @@ namespace DA_Lab_1
 
             var characteristicsWindow = WindowsResponsible.GetWindow<CharacteristicsWindow>() as CharacteristicsWindow;
 
-            var S = Characteristics.StandardDeviation.Value;
+            var S = Characteristics.StandardDeviation;
 
             var bandwidth = GetBandwidthByScott(S, N);
 

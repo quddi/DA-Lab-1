@@ -7,190 +7,419 @@ namespace DA_Lab_1
 {
     public static class Characteristics
     {
-        public static double? Mean {  get; set; }
-        public static double? MeanSigma { get; set; }
-        public static (double LeftEdge, double RightEdge)? MeanTrustInterval { get; set; }
+        private static List<RowData>? _datas;
 
-        public static double? Median { get; set; }
-        public static (double LeftEdge, double RightEdge)? MedianTrustInterval { get; set; }
+        private static double? _mean;
+        private static double? _meanSigma;
+        private static (double LeftEdge, double RightEdge)? _meanTrustInterval;
 
-        public static double? StandardDeviation { get; set; }
-        public static double? StandardDeviationSigma { get; set; }
-        public static (double LeftEdge, double RightEdge)? StandardDeviationTrustInterval { get; set; }
+        private static double? _median;
+        private static (double LeftEdge, double RightEdge)? _medianTrustInterval;
 
-        public static double? SecondSkewnessCoefficient { get; set; }
-        public static double? SecondSkewnessCoefficientSigma { get; set; }
-        public static (double LeftEdge, double RightEdge)? SecondSkewnessCoefficientTrustInterval { get; set; }
+        private static double? _standardDeviation;  
+        private static double? _standardDeviationSigma;
+        private static (double LeftEdge, double RightEdge)? _standardDeviationTrustInterval;
 
-        public static double? SecondKurtosisCoefficient { get; set; }
-        public static double? SecondKurtosisCoefficientSigma { get; set; }
-        public static (double LeftEdge, double RightEdge)? SecondKurtosisCoefficientTrustInterval { get; set; }
+        private static double? _secondSkewnessCoefficient;
+        private static double? _secondSkewnessCoefficientSigma;
+        private static (double LeftEdge, double RightEdge)? _secondSkewnessCoefficientTrustInterval;
 
-        public static double? Variance { get; set; }
-        public static double? Min {  get; set; }
-        public static double? Max { get; set; }
+        private static double? _secondKurtosisCoefficient;
+        private static double? _secondKurtosisCoefficientSigma;
+        private static (double LeftEdge, double RightEdge)? _secondKurtosisCoefficientTrustInterval;
 
+        private static double? _variance;
+        private static double? _min;
+        private static double? _max;
+        private static double? _studentQuantile;
+        private static double? _shiftedVariance;
+        private static double? _firstSkewnessCoefficient;
+        private static double? _firstKurtosisCoefficient;
+        private static int? _count;
 
-        private const double _alpha = 0.05;
-        private const double _c0 = 2.515517;
-        private const double _c1 = 0.802853;
-        private const double _c2 = 0.010328;
-        private const double _d1 = 1.432788;
-        private const double _d2 = 0.1892659;
-        private const double _d3 = 0.001308;
-
-        public static void Compute(List<RowData> datas)
+        public static double Mean
         {
-            ComputeMean(datas);
-            ComputeMedian(datas);
-            ComputeStandardDeviation(datas);
-            ComputeSkewnessCoefficient(datas);
-            ComputeKurtosisCoefficient(datas);
-            ComputeMin(datas);
-            ComputeMax(datas);
-        }
-
-        private static void ComputeMean(List<RowData> datas)
-        {
-            if (datas == null) return;
-
-            Mean = datas.Average(data => data.VariantValue);
-
-            var count = datas.Count;
-
-            var studentQuantile = GetStudentDistributionQuantile(1 - _alpha / 2, count - 1);
-
-            var sum = datas.Sum(data =>
+            get
             {
-                var delta = data.VariantValue - Mean;
-                return delta * delta;
-            });
+                if (_mean == null) ComputeMean();
 
-            Variance = sum / (datas.Count - 1); //S^2
+                return _mean.Value;
+            }
+        }
+        public static double MeanSigma
+        {
+            get
+            {
+                if (_meanSigma == null) ComputeMean();
 
-            StandardDeviation = Math.Sqrt(Variance.Value);
+                return _meanSigma.Value;
+            }
+        }
+        public static (double LeftEdge, double RightEdge) MeanTrustInterval
+        {
+            get
+            {
+                if (_meanTrustInterval == null) ComputeMean();
 
-            MeanSigma = GetMeanSquaredStandardDeviation(StandardDeviation.Value, count);
-
-            MeanTrustInterval = (Mean.Value - studentQuantile * MeanSigma.Value, Mean.Value + studentQuantile * MeanSigma.Value);
+                return _meanTrustInterval.Value;
+            }
         }
 
-        private static void ComputeMedian(List<RowData> datas)
+        public static double Median
         {
-            var rowDatas = datas?
+            get
+            {
+                if (_median == null) ComputeMedian();
+
+                return _median.Value;
+            }
+        }
+        public static (double LeftEdge, double RightEdge) MedianTrustInterval
+        {
+            get
+            {
+                if (_medianTrustInterval == null) ComputeMedian();
+
+                return _medianTrustInterval.Value;
+            }
+        }
+
+        public static double StandardDeviation
+        {
+            get
+            {
+                if (_standardDeviation == null) ComputeStandardDeviation();
+
+                return _standardDeviation.Value;
+            }
+        }
+        public static double StandardDeviationSigma
+        {
+            get
+            {
+                if (_standardDeviationSigma == null) ComputeStandardDeviation();
+
+                return _standardDeviationSigma.Value;
+            }
+        }
+        public static (double LeftEdge, double RightEdge) StandardDeviationTrustInterval
+        {
+            get
+            {
+                if (_standardDeviationTrustInterval == null) ComputeStandardDeviation();
+
+                return _standardDeviationTrustInterval.Value;
+            }
+        }
+
+        public static double SecondSkewnessCoefficient
+        {
+            get
+            {
+                if (_secondSkewnessCoefficient == null) ComputeSecondSkewnessCoefficient();
+
+                return _secondSkewnessCoefficient.Value;
+            }
+        }
+        public static double SecondSkewnessCoefficientSigma
+        {
+            get
+            {
+                if (_secondSkewnessCoefficientSigma == null) ComputeSecondSkewnessCoefficient();
+
+                return _secondSkewnessCoefficientSigma.Value;
+            }
+        }
+        public static (double LeftEdge, double RightEdge) SecondSkewnessCoefficientTrustInterval
+        {
+            get
+            {
+                if (_secondSkewnessCoefficientTrustInterval == null) ComputeSecondSkewnessCoefficient();
+
+                return _secondSkewnessCoefficientTrustInterval.Value;
+            }
+        }
+
+        public static double SecondKurtosisCoefficient
+        {
+            get
+            {
+                if (_secondKurtosisCoefficient == null) ComputeSecondKurtosisCoefficient();
+
+                return _secondKurtosisCoefficient.Value;
+            }
+        }
+        public static double SecondKurtosisCoefficientSigma
+        {
+            get
+            {
+                if (_secondKurtosisCoefficientSigma == null) ComputeSecondKurtosisCoefficient();
+
+                return _secondKurtosisCoefficientSigma.Value;
+            }
+        }
+        public static (double LeftEdge, double RightEdge) SecondKurtosisCoefficientTrustInterval
+        {
+            get
+            {
+                if (_secondKurtosisCoefficientTrustInterval == null) ComputeSecondKurtosisCoefficient();
+
+                return _secondKurtosisCoefficientTrustInterval.Value;
+            }
+        }
+
+        public static double Variance
+        {
+            get
+            {
+                if (_variance == null) ComputeVariance();
+
+                return _variance.Value;
+            }
+        }
+
+        public static double Min
+        {
+            get
+            {
+                if (_min == null) ComputeMin();
+
+                return _min.Value;
+            }
+        }
+
+        public static double Max
+        {
+            get
+            {
+                if (_max == null) ComputeMax();
+
+                return _max.Value;
+            }
+        }
+
+        public static int Count
+        {
+            get
+            {
+                if (_count == null) ComputeCount();
+
+                return _count.Value;
+            }
+        }
+
+        public static double StudentQuantile
+        {
+            get
+            {
+                if (_studentQuantile == null) ComputeStudentQuantile();
+
+                return _studentQuantile.Value;
+            }
+        }
+
+        public static double ShiftedVariance
+        {
+            get
+            {
+                if (_shiftedVariance == null) ComputeShiftedVariance();
+
+                return _shiftedVariance.Value;
+            }
+        }
+
+        public static double FirstSkewnessCoefficient
+        {
+            get
+            {
+                if (_firstSkewnessCoefficient == null) ComputeFirstSkewnessCoefficient();
+
+                return _firstSkewnessCoefficient.Value;
+            }
+        }
+
+        public static double FirstKurtosisCoefficient
+        {
+            get
+            {
+                if (_firstKurtosisCoefficient == null) ComputeFirstKurtosisCoefficient();
+
+                return _firstKurtosisCoefficient.Value;
+            }
+        }
+
+        private const double Alpha = 0.05;
+        private const double C0 = 2.515517;
+        private const double C1 = 0.802853;
+        private const double C2 = 0.010328;
+        private const double D1 = 1.432788;
+        private const double D2 = 0.1892659;
+        private const double D3 = 0.001308;
+
+        public static void SetDatas(List<RowData>? datas)
+        {
+            _datas = datas;
+        }
+
+        public static void Reset()
+        {
+            _datas = null;
+            _mean = null;
+            _meanSigma = null;
+            _meanTrustInterval = null;
+            _median = null;
+            _medianTrustInterval = null;
+            _standardDeviation = null;
+            _standardDeviationSigma = null;
+            _standardDeviationTrustInterval = null;
+            _secondSkewnessCoefficient = null;
+            _secondSkewnessCoefficientSigma = null;
+            _secondSkewnessCoefficientTrustInterval = null;
+            _secondKurtosisCoefficient = null;
+            _secondKurtosisCoefficientSigma = null;
+            _secondKurtosisCoefficientTrustInterval = null;
+            _variance = null;
+            _min = null;
+            _max = null;
+            _studentQuantile = null;
+            _shiftedVariance = null;
+            _firstSkewnessCoefficient = null;
+            _firstKurtosisCoefficient = null;
+            _count = null;
+        }
+
+        #region Computing methods
+
+        private static void ComputeMean()
+        {
+            _mean = _datas.Average(data => data.VariantValue);
+
+            _meanSigma = GetMeanSquaredStandardDeviation(StandardDeviation, Count);
+
+            _meanTrustInterval = (Mean - StudentQuantile * MeanSigma, Mean + StudentQuantile * MeanSigma);
+        }
+
+        private static void ComputeMedian()
+        {
+            var rowDatas = _datas?
                 .OrderBy(data => data.VariantValue)?
                 .ToList();
 
-            var count = rowDatas.Count;
+            _median = Count % 2 == 0
+                ? (rowDatas[Count / 2].VariantValue + rowDatas[Count / 2 - 1].VariantValue) / 2f
+                : rowDatas[Count / 2].VariantValue;
 
-            Median = count % 2 == 0
-                ? (rowDatas[count / 2].VariantValue + rowDatas[count / 2 - 1].VariantValue) / 2f
-                : rowDatas[count / 2].VariantValue;
+            var uP = GetNormalDistributionQuantile(1 - Alpha / 2);
 
-            var uP = GetNormalDistributionQuantile(1 - _alpha / 2);
+            var j = (int)(Count / 2 - uP * Math.Sqrt(Count) / 2);
+            var k = (int)(Count / 2 + 1 + uP * Math.Sqrt(Count) / 2);
 
-            var j = (int)(count / 2 - uP * Math.Sqrt(count) / 2);
-            var k = (int)(count / 2 + 1 + uP * Math.Sqrt(count) / 2);
-
-            MedianTrustInterval = (rowDatas[j].VariantValue, rowDatas[k].VariantValue);
+            _medianTrustInterval = (rowDatas[j].VariantValue, rowDatas[k].VariantValue);
         }
 
-        private static void ComputeStandardDeviation(List<RowData> datas)
+        private static void ComputeStandardDeviation()
         {
-            var sum = datas.Sum(data =>
+            _standardDeviation = Math.Sqrt(Variance);
+
+            _standardDeviationSigma = GetSampleMeanSquaredStandardDeviation(StandardDeviation, Count);
+
+            _standardDeviationTrustInterval = (
+                StandardDeviation - StudentQuantile * StandardDeviationSigma, 
+                StandardDeviation + StudentQuantile * StandardDeviationSigma);
+        }
+
+        private static void ComputeFirstSkewnessCoefficient()
+        {
+            var sum = _datas.Sum(data =>
             {
                 var delta = data.VariantValue - Mean;
-
-                return delta * delta;
-            });
-
-            Variance = sum / (datas.Count - 1); //S^2
-
-            StandardDeviation = Math.Sqrt(Variance.Value);
-
-            var count = datas.Count;
-
-            var studentQuantile = GetStudentDistributionQuantile(1 - _alpha / 2, count - 1);
-
-            StandardDeviationSigma = GetSampleMeanSquaredStandardDeviation(StandardDeviation.Value, count);
-
-            StandardDeviationTrustInterval = (StandardDeviation.Value - studentQuantile * StandardDeviationSigma.Value, StandardDeviation.Value + studentQuantile * StandardDeviationSigma.Value);
-        }
-
-        private static void ComputeSkewnessCoefficient(List<RowData> datas)
-        {
-            var count = datas.Count;
-
-            var shiftedVarianceSqrt = Math.Sqrt(Variance.Value * (count - 1) / count);
-
-            var sum = datas.Sum(data =>
-            {
-                var delta = data.VariantValue - Mean.Value;
 
                 return delta * delta * delta;
             });
 
-            var firstSkewnessCoefficient = sum / (count * shiftedVarianceSqrt * shiftedVarianceSqrt * shiftedVarianceSqrt);
+            var shiftedVarianceSqrt = Math.Sqrt(ShiftedVariance);
 
-            SecondSkewnessCoefficient = (firstSkewnessCoefficient * Math.Sqrt(count * (count - 1)) / (count - 2));
-
-            var studentQuantile = GetStudentDistributionQuantile(1 - _alpha / 2, count - 1);
-
-            SecondSkewnessCoefficientSigma = GetSkewnessCoefficientRootMeanSquareDeviation(count);
-
-            SecondSkewnessCoefficientTrustInterval = (
-                SecondSkewnessCoefficient.Value - studentQuantile * SecondSkewnessCoefficientSigma.Value, 
-                SecondSkewnessCoefficient.Value + studentQuantile * SecondSkewnessCoefficientSigma.Value
-                );
+            _firstSkewnessCoefficient = sum / (Count * shiftedVarianceSqrt * shiftedVarianceSqrt * shiftedVarianceSqrt);
         }
 
-        private static void ComputeKurtosisCoefficient(List<RowData> datas)
+        private static void ComputeSecondSkewnessCoefficient()
         {
-            var count = datas.Count;
+            _secondSkewnessCoefficient = (FirstSkewnessCoefficient * Math.Sqrt(Count * (Count - 1)) / (Count - 2));
 
-            var shiftedVariance = Variance.Value * (count - 1) / count;
+            _secondSkewnessCoefficientSigma = GetSkewnessCoefficientRootMeanSquareDeviation(Count);
 
-            var sum = datas.Sum(data =>
+            _secondSkewnessCoefficientTrustInterval = (
+                SecondSkewnessCoefficient - StudentQuantile * SecondSkewnessCoefficientSigma, 
+                SecondSkewnessCoefficient + StudentQuantile * SecondSkewnessCoefficientSigma);
+        }
+
+        private static void ComputeFirstKurtosisCoefficient()
+        {
+            var sum = _datas.Sum(data =>
             {
-                var delta = data.VariantValue - Mean.Value;
-
+                var delta = data.VariantValue - Mean;
                 return delta * delta * delta * delta;
             });
 
-            var firstKurtosisCoefficient = (sum / (count * shiftedVariance * shiftedVariance)) - 3;
-
-            SecondKurtosisCoefficient = (firstKurtosisCoefficient + 6.0 / (count + 1)) * ((count * count - 1) / ((count - 2) * (count - 3)));
-
-            var studentQuantile = GetStudentDistributionQuantile(1 - _alpha / 2, count - 1);
-
-            SecondKurtosisCoefficientSigma = GetKurtosisCoefficientRootMeanSquareDeviation(count);
-
-            SecondKurtosisCoefficientTrustInterval = (
-                SecondKurtosisCoefficient.Value - studentQuantile * SecondKurtosisCoefficientSigma.Value,
-                SecondKurtosisCoefficient.Value + studentQuantile * SecondKurtosisCoefficientSigma.Value
-                );
+            _firstKurtosisCoefficient = (sum / (Count * ShiftedVariance * ShiftedVariance)) - 3;
         }
 
-        private static void ComputeMin(List<RowData> datas)
+        private static void ComputeSecondKurtosisCoefficient()
         {
-            Min = datas.Min(data => data.VariantValue);
+            _secondKurtosisCoefficient = (FirstKurtosisCoefficient + 6.0 / (Count + 1)) * ((Count * Count - 1) / ((Count - 2) * (Count - 3)));
+
+            _secondKurtosisCoefficientSigma = GetKurtosisCoefficientRootMeanSquareDeviation(Count);
+
+            _secondKurtosisCoefficientTrustInterval = (
+                SecondKurtosisCoefficient - StudentQuantile * SecondKurtosisCoefficientSigma,
+                SecondKurtosisCoefficient + StudentQuantile * SecondKurtosisCoefficientSigma);
         }
 
-        private static void ComputeMax(List<RowData> datas)
+        private static void ComputeMin()
         {
-            Max = datas.Max(data => data.VariantValue);
+            _min = _datas.Min(data => data.VariantValue);
         }
 
-        #region Computing methods
+        private static void ComputeMax()
+        {
+            _max = _datas.Max(data => data.VariantValue);
+        }
+
+        private static void ComputeVariance()
+        {
+            var sum = _datas.Sum(data =>
+            {
+                var delta = data.VariantValue - _mean;
+                return delta * delta;
+            });
+
+            _variance = sum / (_datas.Count - 1); //S^2
+        }
+
+        private static void ComputeCount()
+        {
+            _count = _datas.Count;
+        }
+
+        private static void ComputeStudentQuantile()
+        {
+            _studentQuantile = GetStudentDistributionQuantile(1 - Alpha / 2, Count - 1);
+        }
+
+        private static void ComputeShiftedVariance()
+        {
+            _shiftedVariance = Variance * (Count - 1) / Count;
+        }
+
         private static double GetQuantileT(double a) => Math.Sqrt(-2 * Math.Log2(a));
 
         private static double GetQuantilePhi(double a)
         {
             var t = GetQuantileT(a);
 
-            var numerator = _c0 + _c1 * t + _c2 * t * t;
+            var numerator = C0 + C1 * t + C2 * t * t;
 
-            var denominator = 1 + _d1 * t + _d2 * t * t + _d3 * t * t * t;
+            var denominator = 1 + D1 * t + D2 * t * t + D3 * t * t * t;
 
             return t - numerator / denominator;
         }

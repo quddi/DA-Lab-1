@@ -26,7 +26,7 @@ namespace DA_Lab_1
             if (_datas == null)
                 throw new InvalidOperationException($"Для розрахунку необхідні row datas!");
 
-            Characteristics.Compute(_datas);
+            Characteristics.SetDatas(_datas);
             
             DisplayCharacteristics();
         }
@@ -44,65 +44,65 @@ namespace DA_Lab_1
 
         private void DisplayMean()
         {
-            MeanGradeText.Text = Characteristics.Mean.Value.ToFormattedString();
+            MeanGradeText.Text = Characteristics.Mean.ToFormattedString();
 
-            MeanMSDEText.Text = Characteristics.MeanSigma.Value.ToFormattedString();
+            MeanMSDEText.Text = Characteristics.MeanSigma.ToFormattedString();
 
-            var edges = Characteristics.MeanTrustInterval.Value;
+            var edges = Characteristics.MeanTrustInterval;
 
             MeanTrustIntervalText.Text = string.Format($"[{edges.LeftEdge.ToFormattedString()}; {edges.RightEdge.ToFormattedString()}]");
         }
 
         private void DisplayMedian() 
         {
-            MedianGradeText.Text = Characteristics.Median.Value.ToFormattedString();
+            MedianGradeText.Text = Characteristics.Median.ToFormattedString();
 
-            var edges = Characteristics.MedianTrustInterval.Value;
+            var edges = Characteristics.MedianTrustInterval;
 
             MedianTrustIntervalText.Text = string.Format($"[{edges.LeftEdge.ToFormattedString()}; {edges.RightEdge.ToFormattedString()}]");
         }
 
         private void DisplayStandardDeviation()
         {
-            StandardDeviationGradeText.Text = Characteristics.StandardDeviation.Value.ToFormattedString();
+            StandardDeviationGradeText.Text = Characteristics.StandardDeviation.ToFormattedString();
 
-            StandardDeviationMSDEText.Text = Characteristics.StandardDeviationSigma.Value.ToFormattedString();
+            StandardDeviationMSDEText.Text = Characteristics.StandardDeviationSigma.ToFormattedString();
 
-            var edges = Characteristics.StandardDeviationTrustInterval.Value;
+            var edges = Characteristics.StandardDeviationTrustInterval;
 
             StandardDeviationTrustIntervalText.Text = string.Format($"[{edges.LeftEdge.ToFormattedString()}; {edges.RightEdge.ToFormattedString()}]");
         }
 
         private void DisplaySkewnessCoefficient()
         {
-            SkewnessCoefficientGradeText.Text = Characteristics.SecondSkewnessCoefficient.Value.ToFormattedString();
+            SkewnessCoefficientGradeText.Text = Characteristics.SecondSkewnessCoefficient.ToFormattedString();
 
-            SkewnessCoefficientMSDEText.Text = Characteristics.SecondSkewnessCoefficientSigma.Value.ToFormattedString();
+            SkewnessCoefficientMSDEText.Text = Characteristics.SecondSkewnessCoefficientSigma.ToFormattedString();
 
-            var edges = Characteristics.SecondSkewnessCoefficientTrustInterval.Value;
+            var edges = Characteristics.SecondSkewnessCoefficientTrustInterval;
 
             SkewnessCoefficientTrustIntervalText.Text = string.Format($"[{edges.LeftEdge.ToFormattedString()}; {edges.RightEdge.ToFormattedString()}]");
         }
 
         private void DisplayKurtosisCoefficient()
         {
-            KurtosisCoefficientGradeText.Text = Characteristics.SecondKurtosisCoefficient.Value.ToFormattedString();
+            KurtosisCoefficientGradeText.Text = Characteristics.SecondKurtosisCoefficient.ToFormattedString();
 
-            KurtosisCoefficientMSDEText.Text = Characteristics.SecondKurtosisCoefficientSigma.Value.ToFormattedString();
+            KurtosisCoefficientMSDEText.Text = Characteristics.SecondKurtosisCoefficientSigma.ToFormattedString();
 
-            var edges = Characteristics.SecondKurtosisCoefficientTrustInterval.Value;
+            var edges = Characteristics.SecondKurtosisCoefficientTrustInterval;
 
             KurtosisCoefficientTrustIntervalText.Text = string.Format($"[{edges.LeftEdge.ToFormattedString()}; {edges.RightEdge.ToFormattedString()}]");
         }
 
         private void DisplayMin()
         {
-            MinGradeText.Text = Characteristics.Min.Value.ToFormattedString();
+            MinGradeText.Text = Characteristics.Min.ToFormattedString();
         }
 
         private void DisplayMax()
         {
-            MaxGradeText.Text = Characteristics.Max.Value.ToFormattedString();
+            MaxGradeText.Text = Characteristics.Max.ToFormattedString();
         }
     }
 }
