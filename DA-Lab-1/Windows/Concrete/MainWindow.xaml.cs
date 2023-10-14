@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,54 +26,62 @@ namespace DA_Lab_1
 
             PrepareBarChart();
         
-            GrouppedDataGrid.IsReadOnly = true;
+            GroupedDataGrid.IsReadOnly = true;
         }
 
         #region Groupped data
         private void CreateGroupedDataGrid()
         {
-            GrouppedDataGrid.Columns.Clear();
+            GroupedDataGrid.Columns.Clear();
 
             DataGridTextColumn variantNumColumn = new DataGridTextColumn()
             {
                 Header = "№",
-                Binding = new Binding(nameof(GrouppedData.VariantNum)),
+                Binding = new Binding(nameof(GroupedData.VariantNum)),
                 Width = 30
             };
 
             DataGridTextColumn variantValueColumn = new DataGridTextColumn()
             {
                 Header = "Значення",
-                Binding = new Binding(nameof(GrouppedData.VariantValue)),
+                Binding = new Binding(nameof(GroupedData.VariantValue)),
                 Width = 70
             };
 
             DataGridTextColumn frequencyColumn = new DataGridTextColumn() 
             { 
                 Header = "Частота",
-                Binding = new Binding(nameof(GrouppedData.Frequency)),
+                Binding = new Binding(nameof(GroupedData.Frequency)),
                 Width = 60
             };
 
             DataGridTextColumn relativeFrequencyColumn = new DataGridTextColumn() 
             { 
                 Header = "Відносна частота",
-                Binding = new Binding(nameof(GrouppedData.FormattedRelativeFrequency)),
+                Binding = new Binding(nameof(GroupedData.FormattedRelativeFrequency)),
                 Width = 110
             };
 
             DataGridTextColumn empFunctionValueColumn = new DataGridTextColumn() 
             { 
-                Header = "Значення емп. функції",
-                Binding = new Binding(nameof(GrouppedData.FormattedEmpericFunctionValue)),
+                Header = "Значення емп. ф-ї",
+                Binding = new Binding(nameof(GroupedData.FormattedEmpiricFunctionValue)),
+                Width = 110
+            };
+
+            DataGridCheckBoxColumn isOutlieColumn = new DataGridCheckBoxColumn()
+            {
+                Header = "Аномальне",
+                Binding = new Binding(nameof(GroupedData.IsOutlier)),
                 Width = new DataGridLength(1, DataGridLengthUnitType.Star)
             };
 
-            GrouppedDataGrid.Columns.Add(variantNumColumn);
-            GrouppedDataGrid.Columns.Add(variantValueColumn);
-            GrouppedDataGrid.Columns.Add(frequencyColumn);
-            GrouppedDataGrid.Columns.Add(relativeFrequencyColumn);
-            GrouppedDataGrid.Columns.Add(empFunctionValueColumn);
+            GroupedDataGrid.Columns.Add(variantNumColumn);
+            GroupedDataGrid.Columns.Add(variantValueColumn);
+            GroupedDataGrid.Columns.Add(frequencyColumn);
+            GroupedDataGrid.Columns.Add(relativeFrequencyColumn);
+            GroupedDataGrid.Columns.Add(empFunctionValueColumn);
+            GroupedDataGrid.Columns.Add(isOutlieColumn);
         }
 
         private void UploadFileButtonClick(object sender, RoutedEventArgs e)
@@ -91,25 +98,36 @@ namespace DA_Lab_1
                 return;
             }
 
+            _datas.AddPair(typeof(RowData), rowDatas.ToGeneralDataList());
+
+            UpdateGroupedDataGrid();
+        }
+
+        private void UpdateGroupedDataGrid()
+        {
+            var rowDatas = _datas[typeof(RowData)].ToTemplateDataList<RowData>();
+
             Reset();
 
             Characteristics.SetDatas(rowDatas);
 
-            _datas.AddPair(typeof(RowData), rowDatas.ToGeneralDataList());
+            var groupedDatas = MainDataConverter.Handle<RowData, GroupedData>(rowDatas);
 
-            var groupedDatas = MainDataConverter.Handle<RowData, GrouppedData>(rowDatas);
-
-            _datas.AddPair(typeof(GrouppedData), groupedDatas.ToGeneralDataList());
+            _datas.AddPair(typeof(GroupedData), groupedDatas.ToGeneralDataList());
 
             FillGroupedDatasGrid(groupedDatas);
         }
 
-        private void FillGroupedDatasGrid(List<GrouppedData> groupedDatas)
+        private void FillGroupedDatasGrid(List<GroupedData> groupedDatas)
         {
-            GrouppedDataGrid.Items.Clear();
+            GroupedDataGrid.Items.Clear();
 
-            foreach (var groupedData in groupedDatas)
-                GrouppedDataGrid.Items.Add(groupedData);
+            for (int i = 0; i < groupedDatas.Count; i++)
+            {
+                GroupedData? groupedData = groupedDatas[i];
+
+                GroupedDataGrid.Items.Add(groupedData);
+            }
         }
 
         private void Reset()
@@ -126,8 +144,21 @@ namespace DA_Lab_1
 
             ClassedDataGrid.Items.Clear();
 
-            GrouppedDataGrid.Items.Clear();
+            GroupedDataGrid.Items.Clear();
         }
+
+        private void KParameterSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Characteristics.SetOutlieK(KParameterSlider.Value);
+
+            if (KParameterTextBox?.Text != null)
+            {
+                KParameterTextBox.Text = string.Format($"K={Characteristics.OutlieK}");
+                
+                UpdateGroupedDataGrid();
+            } 
+        }
+
         #endregion
 
         #region Classified data
@@ -137,19 +168,19 @@ namespace DA_Lab_1
             ((DataGridTextColumn)ClassedDataGrid.Columns[1]).Binding = new Binding(nameof(ClassifiedData.FormattedEdges));
             ((DataGridTextColumn)ClassedDataGrid.Columns[2]).Binding = new Binding(nameof(ClassifiedData.Frequency));
             ((DataGridTextColumn)ClassedDataGrid.Columns[3]).Binding = new Binding(nameof(ClassifiedData.FormattedRelativeFrequency));
-            ((DataGridTextColumn)ClassedDataGrid.Columns[4]).Binding = new Binding(nameof(ClassifiedData.FormattedEmpericFunctionValue));
+            ((DataGridTextColumn)ClassedDataGrid.Columns[4]).Binding = new Binding(nameof(ClassifiedData.FormattedEmpiricFunctionValue));
         }
 
         private void ClassifyDataButtonClick(object sender, RoutedEventArgs e)
         {
-            if (!_datas.ContainsKey(typeof(GrouppedData)))
+            if (!_datas.ContainsKey(typeof(GroupedData)))
                 throw new InvalidOperationException($"Для створення класифікованих даних необхідна наявність згрупованих даних!");
 
-            var groupedDatasAmount = _datas[typeof(GrouppedData)].Count;
+            var groupedDatasAmount = _datas[typeof(GroupedData)].Count;
 
             var parsed = int.TryParse(ClassesAmountTextBox.Text, out int classesCount);
 
-            var parsedIsValid = MinClassifiedDatasAmount < classesCount && classesCount < _datas[typeof(GrouppedData)].Count; 
+            var parsedIsValid = MinClassifiedDatasAmount < classesCount && classesCount < _datas[typeof(GroupedData)].Count; 
 
             if (!parsed || !parsedIsValid)
             {
@@ -174,11 +205,11 @@ namespace DA_Lab_1
 
         private void UpdateClassifiedDatas()
         {
-            var parameters = new GrouppedToClassifiedConverterParameters() { ClassesAmount = Characteristics.ClassesCount };
+            var parameters = new GroupedToClassifiedConverterParameters() { ClassesAmount = Characteristics.ClassesCount };
 
-            var groupedDatas = _datas[typeof(GrouppedData)].ToTemplateDataList<GrouppedData>();
+            var groupedDatas = _datas[typeof(GroupedData)].ToTemplateDataList<GroupedData>();
 
-            List<ClassifiedData> classifiedDatas = MainDataConverter.Handle<GrouppedData, ClassifiedData>(groupedDatas, parameters);
+            List<ClassifiedData> classifiedDatas = MainDataConverter.Handle<GroupedData, ClassifiedData>(groupedDatas, parameters);
             
             _datas[typeof(ClassifiedData)] = classifiedDatas.ToGeneralDataList();
 
@@ -277,7 +308,7 @@ namespace DA_Lab_1
         {
             var plot = CumulativeProbabilityHistogram.Plot;
 
-            var key = typeof(GrouppedData);
+            var key = typeof(GroupedData);
 
             if (!_datas.ContainsKey(key))
             {
@@ -288,11 +319,11 @@ namespace DA_Lab_1
             plot.Clear();
 
             var groupedDatas = _datas[key]
-                .ToTemplateDataList<GrouppedData>()
-                .OrderBy(data => data.EmpericFunctionValue);
+                .ToTemplateDataList<GroupedData>()
+                .OrderBy(data => data.EmpiricFunctionValue);
 
             var xs = groupedDatas.Select(data => data.VariantValue).ToArray();
-            var ys = groupedDatas.Select(data => data.EmpericFunctionValue).ToArray();
+            var ys = groupedDatas.Select(data => data.EmpiricFunctionValue).ToArray();
 
             plot.AddScatterStep(xs, ys);
             plot.SetAxisLimits(yMin: 0, yMax: 1);

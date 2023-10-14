@@ -37,6 +37,9 @@ namespace DA_Lab_1
         private static double? _firstKurtosisCoefficient;
         private static double? _bandwidth;
         private static double? _classWidth;
+        private static double? _firstQuartile;
+        private static double? _thirdQuartile;
+        private static double _outlieK = 1.5;
         private static int? _count;
         private static int? _classesCount;
 
@@ -271,7 +274,41 @@ namespace DA_Lab_1
             }
         }
 
-        public static double ClassWidth => _classWidth.Value;
+        public static double ClassWidth
+        {
+            get
+            {
+                return _classWidth.Value;
+            }
+        }
+
+        public static double FirstQuartile
+        {
+            get
+            {
+                if (_firstQuartile == null) ComputeQuartiles();
+
+                return _firstQuartile.Value;
+            }
+        }
+
+        public static double ThirdQuartile
+        {
+            get
+            {
+                if (_thirdQuartile == null) ComputeQuartiles();
+
+                return _thirdQuartile.Value;
+            }
+        }
+
+        public static double OutlieK
+        {
+            get
+            {
+                return _outlieK;
+            }
+        }
 
         private const double Alpha = 0.05;
         private const double C0 = 2.515517;
@@ -310,6 +347,8 @@ namespace DA_Lab_1
             _shiftedVariance = null;
             _firstSkewnessCoefficient = null;
             _firstKurtosisCoefficient = null;
+            _firstQuartile = null;
+            _thirdQuartile = null;
             _bandwidth = null;
             _classWidth = null;
             _count = null;
@@ -330,6 +369,14 @@ namespace DA_Lab_1
         public static void SetClassesCount(int? value)
         {
             _classesCount = value;
+        }
+
+        public static void SetOutlieK(double value)
+        {
+            if (value < 1.5 || value > 3)
+                throw new ArgumentOutOfRangeException($"Значення K має належати проміжку [1,5; 3], а було {value}!");
+
+            _outlieK = value;
         }
         #endregion
 
@@ -475,6 +522,25 @@ namespace DA_Lab_1
 
                 _classesCount = sqrt % 2 == 0 ? sqrt - 1 : sqrt;
             }
+        }
+
+        private static void ComputeQuartiles()
+        {
+            var sortedDatas = _datas.OrderBy(data => data.VariantValue).ToList();
+
+            var firstQuartileIndex = (Count + 1.0) * 0.25;
+            var firstRoundedIndex = (int)firstQuartileIndex;
+
+            _firstQuartile = firstQuartileIndex == firstRoundedIndex
+                ? _datas[firstRoundedIndex].VariantValue
+                : (_datas[firstRoundedIndex].VariantValue + _datas[firstRoundedIndex + 1].VariantValue) / 2.0;
+
+            var thirdQuartileIndex = (Count + 1.0) * 0.75;
+            var thirdRoundedIndex = (int)thirdQuartileIndex;
+
+            _thirdQuartile = thirdQuartileIndex == thirdRoundedIndex
+                ? _datas[thirdRoundedIndex].VariantValue
+                : (_datas[thirdRoundedIndex].VariantValue + _datas[thirdRoundedIndex + 1].VariantValue) / 2.0;
         }
 
         public static double GetGaussCore(double u)

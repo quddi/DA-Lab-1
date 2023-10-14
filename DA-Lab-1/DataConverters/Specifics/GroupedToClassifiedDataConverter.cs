@@ -1,17 +1,16 @@
-﻿using DA_Lab_1;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DA_Lab_1
 {
-    internal class GroupedToClassifiedDataConverter : DataConverter<GrouppedData, ClassifiedData>
+    internal class GroupedToClassifiedDataConverter : DataConverter<GroupedData, ClassifiedData>
     {
-        public override Type? ParametersType => typeof(GrouppedToClassifiedConverterParameters);
+        public override Type? ParametersType => typeof(GroupedToClassifiedConverterParameters);
 
-        protected override List<ClassifiedData> Handle(List<GrouppedData> data, IDataConverterParameters? parameters)
+        protected override List<ClassifiedData> Handle(List<GroupedData> data, IDataConverterParameters? parameters)
         {
-            if (parameters is not GrouppedToClassifiedConverterParameters concretizedParameters) 
+            if (parameters is not GroupedToClassifiedConverterParameters concretizedParameters) 
                 throw new ArgumentNullException($"Тип параметрів мав бути {ParametersType} але був {parameters?.GetType()}");
 
             var minValue = data.Min(data => data.VariantValue);
@@ -41,7 +40,7 @@ namespace DA_Lab_1
 
                 var empiricFunctionValue = (i == 0)
                     ? relativeFrequency
-                    : relativeFrequency + result[i - 1].EmpericFunctionValue;
+                    : relativeFrequency + result[i - 1].EmpiricFunctionValue;
 
                 var classifiedData = new ClassifiedData()
                 {
@@ -49,7 +48,7 @@ namespace DA_Lab_1
                     Edges = (leftEdge, rightEdge),
                     Frequency = frequency,
                     RelativeFrequency = relativeFrequency,
-                    EmpericFunctionValue = empiricFunctionValue
+                    EmpiricFunctionValue = empiricFunctionValue
                 };
 
                 result.Add(classifiedData);

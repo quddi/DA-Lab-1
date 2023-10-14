@@ -7,8 +7,8 @@ namespace DA_Lab_1
     {
         private static Dictionary<(Type from, Type to), IDataConverter> _dataConverters = new()
         {
-            { (typeof(RowData), typeof(GrouppedData)), new RowToGrouppedDataConverter() },
-            { (typeof(GrouppedData), typeof(ClassifiedData)), new GroupedToClassifiedDataConverter() }
+            { (typeof(RowData), typeof(GroupedData)), new RowToGroupedDataConverter() },
+            { (typeof(GroupedData), typeof(ClassifiedData)), new GroupedToClassifiedDataConverter() }
         };
 
         public static List<T2> Handle<T1, T2>(List<T1> datas, IDataConverterParameters? parameters = null) where T1 : IData where T2 : IData
