@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="675" Width="1200">
     <Grid>
-        <DataGrid x:Name="GroupedDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,715,444" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+        <DataGrid x:Name="GroupedDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,715,275" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" CanUserResize="False" Width="30"/>
                 <DataGridTextColumn Header="Значення" CanUserResize="False" Width="70"/>
@@ -20,7 +20,7 @@
         <Button x:Name="UploadFileButton" Content="Завантажити файл" Click="UploadFileButtonClick" Margin="968,10,10,0" Height="39" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
         <Button x:Name="ClassifyDataButton" Content="   Поділити на класи" VerticalAlignment="Top" Height="39" Margin="968,54,10,0" HorizontalContentAlignment="Left" Click="ClassifyDataButtonClick" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
         <TextBox x:Name="ClassesAmountTextBox" Margin="1088,59,18,0" TextWrapping="Wrap" Text="*кількість класів*" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="10" FontStyle="Italic" Height="30" VerticalAlignment="Top"/>
-        <DataGrid x:Name="ClassedDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="490,10,237,444" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+        <DataGrid x:Name="ClassedDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="490,10,237,275" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" CanUserResize="False" Width="30"/>
                 <DataGridTextColumn Header="Межі класу" CanUserResize="False" Width="120"/>
@@ -29,11 +29,11 @@
                 <DataGridTextColumn Header="Значення емп. функції" CanUserResize="False" FontSize="12" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <WpfPlot x:Name="HistogramPlot" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,220,0,0" Height="260" Width="418"/>
+        <WpfPlot x:Name="HistogramChart" Margin="10,389,799,10"/>
         <Button x:Name="ComputeCharacteristicsButton" Content="Обрахувати характеристики" Click="ComputeCharacteristicsButtonClick" Margin="968,98,10,0" Height="39" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
         <Button x:Name="BuildKernelDensityEstimationFunctionButton" Content="Побудувати КДЕ                             " Margin="968,142,10,0" Height="45" VerticalAlignment="Top" Click="BuildKernelDensityEstimationFunctionButtonClick" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
-        <WpfPlot x:Name="CumulativeProbabilityHistogram" HorizontalAlignment="Left" VerticalAlignment="Top" Height="260" Width="473" Margin="490,220,0,0"/>
-        <Button x:Name="BuildComulativeProbabilityHistogramButton" Content="Побудувати графік ЕФР" Margin="968,192,10,0" VerticalAlignment="Top" Height="40" Click="BuildCumulativeProbabilityHistogramButtonClick" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
+        <WpfPlot x:Name="CumulativeProbabilityChart" Margin="406,389,365,10"/>
+        <Button x:Name="BuildComulativeProbabilityHistogramButton" Content="Побудувати графік ЕФР" Margin="968,192,10,0" VerticalAlignment="Top" Height="40" Click="BuildCumulativeProbabilityFunctionButtonClick" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
         <TextBox x:Name="BandWidthTextBox" Margin="1088,146,18,0" TextWrapping="Wrap" Text="*ширина вікна*" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontStyle="Italic" Height="36" VerticalAlignment="Top"/>
         <Rectangle Margin="968,237,10,0" Fill="#FFE6E6E6" Stroke="Black" Height="87" VerticalAlignment="Top"/>
         <Slider x:Name="KParameterSlider" Margin="1015,296,50,0" Maximum="3" Value="1.5" Minimum="1.5" TickFrequency="0.1" RenderTransformOrigin="0.502,0.485" ValueChanged="KParameterSliderValueChanged" Height="19" VerticalAlignment="Top" Foreground="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
@@ -41,8 +41,9 @@
         <TextBox x:Name="KParameterTextBox" Margin="1103,242,18,0" TextWrapping="Wrap" Text="1.5" VerticalAlignment="Top" Height="26" Padding="0,4,0,0" TextAlignment="Center"/>
         <Label Content="1.5" HorizontalAlignment="Left" Margin="983,293,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label Content="3" Margin="0,293,29,0" FontWeight="Bold" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="17"/>
-        <Button x:Name="DeleteOutlieGroupedDataButton" Content="Видалити аномальні значення" Margin="968,330,10,0" VerticalAlignment="Top" Height="40" Click="DeleteOutlieGroupedDataButtonClick" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
+        <Button x:Name="DeleteOutlieGroupedDataButton" Content="Видалити аномальні значення" Margin="968,330,10,275" Click="DeleteOutlieGroupedDataButtonClick" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
         <Label Content="для пошуку аномальних значень" Margin="978,267,29,0" VerticalAlignment="Top"/>
         <Button x:Name="InputKParameterButton" Content="Ввести" HorizontalAlignment="Left" Margin="976,242,0,0" VerticalAlignment="Top" Height="26" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}" Width="45" Click="InputKParameterButtonClick"/>
+        <WpfPlot x:Name="AnomaliesPointsChart" Margin="840,389,10,10"/>
     </Grid>
 </Window>

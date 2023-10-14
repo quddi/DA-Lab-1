@@ -25,6 +25,10 @@ namespace DA_Lab_1
             PrepareClassifiedDataGrid();
 
             PrepareBarChart();
+
+            PrepareCumulativeProbabilityChart();
+
+            PrepareAnomaliesPointsChart();
         
             GroupedDataGrid.IsReadOnly = true;
         }
@@ -118,11 +122,13 @@ namespace DA_Lab_1
 
             _datas.AddPair(typeof(GroupedData), groupedDatas.ToGeneralDataList());
 
-            FillGroupedDatasGrid(groupedDatas);
+            FillGroupedDatasGrid();
         }
 
-        private void FillGroupedDatasGrid(List<GroupedData> groupedDatas)
+        private void FillGroupedDatasGrid()
         {
+            var groupedDatas = _datas[typeof(GroupedData)].ToTemplateDataList<GroupedData>();
+
             GroupedDataGrid.Items.Clear();
 
             for (int i = 0; i < groupedDatas.Count; i++)
@@ -139,11 +145,11 @@ namespace DA_Lab_1
 
             WindowsResponsible.HideWindow<CharacteristicsWindow>();
 
-            HistogramPlot.Plot.Clear();
+            HistogramChart.Plot.Clear();
 
-            CumulativeProbabilityHistogram.Plot.Clear();
+            CumulativeProbabilityChart.Plot.Clear();
 
-            CumulativeProbabilityHistogram.Refresh();
+            CumulativeProbabilityChart.Refresh();
 
             ClassedDataGrid.Items.Clear();
 
@@ -171,6 +177,16 @@ namespace DA_Lab_1
 
             if (messageBoxResult == MessageBoxResult.No)
                 return;
+
+            var groupedDatas = _datas[typeof(GroupedData)]
+                .Cast<GroupedData>()
+                .Where(data => !data.IsOutlier)
+                .ToGeneralDataList();
+
+            _datas[typeof(GroupedData)] = groupedDatas;
+
+            FillGroupedDatasGrid();
+            ClassifyData();
         }
 
         private void InputKParameterButtonClick(object sender, RoutedEventArgs e)
@@ -192,6 +208,15 @@ namespace DA_Lab_1
             UpdateGroupedDataGrid();
         }
 
+        private void PrepareAnomaliesPointsChart()
+        {
+            var plot = AnomaliesPointsChart.Plot;
+
+            plot.Title("Аномальні значення");
+            plot.YAxis.Label("Значення елементу");
+            plot.XAxis.Label("Індекс елементу");
+        }
+
         #endregion
 
         #region Classified data
@@ -206,6 +231,11 @@ namespace DA_Lab_1
 
         private void ClassifyDataButtonClick(object sender, RoutedEventArgs e)
         {
+            ClassifyData();
+        }
+
+        private void ClassifyData()
+        {
             if (!_datas.ContainsKey(typeof(GroupedData)))
                 throw new InvalidOperationException($"Для створення класифікованих даних необхідна наявність згрупованих даних!");
 
@@ -213,7 +243,7 @@ namespace DA_Lab_1
 
             var parsed = int.TryParse(ClassesAmountTextBox.Text, out int classesCount);
 
-            var parsedIsValid = MinClassifiedDatasAmount < classesCount && classesCount < _datas[typeof(GroupedData)].Count; 
+            var parsedIsValid = MinClassifiedDatasAmount < classesCount && classesCount < _datas[typeof(GroupedData)].Count;
 
             if (!parsed || !parsedIsValid)
             {
@@ -263,7 +293,7 @@ namespace DA_Lab_1
         #region Bar chart
         private void PrepareBarChart()
         {
-            var plot = HistogramPlot.Plot;
+            var plot = HistogramChart.Plot;
 
             plot.Title("Гістограма і ядерна оцінка"); 
             plot.YAxis.Label("Відносна частота");
@@ -277,7 +307,7 @@ namespace DA_Lab_1
                 .OrderBy(data => data.Edges.Min)
                 .ToList();
 
-            var plot = HistogramPlot.Plot;
+            var plot = HistogramChart.Plot;
 
             plot.Clear();
 
@@ -290,7 +320,7 @@ namespace DA_Lab_1
 
             bar.BarWidth = edges.Max - edges.Min;
 
-            HistogramPlot.Refresh();
+            HistogramChart.Refresh();
         }
 
         private void BuildKernelDensityEstimationFunctionButtonClick(object sender, RoutedEventArgs e)
@@ -316,7 +346,7 @@ namespace DA_Lab_1
                 Characteristics.SetBandwidth(bandwidth);
             }
 
-            var plot = HistogramPlot.Plot;
+            var plot = HistogramChart.Plot;
 
             var delta = (Characteristics.Max - Characteristics.Min) / KDEPointsAmount;
 
@@ -331,15 +361,25 @@ namespace DA_Lab_1
                 plot.AddPoint(x, y, pointsColor);
             }
 
-            HistogramPlot.Refresh();
+            HistogramChart.Refresh();
         }
 
         #endregion
 
         #region Comulative Probability Histogram
-        private void BuildCumulativeProbabilityHistogramButtonClick(object sender, RoutedEventArgs e)
+        private void PrepareCumulativeProbabilityChart()
         {
-            var plot = CumulativeProbabilityHistogram.Plot;
+            var plot = CumulativeProbabilityChart.Plot;
+
+            plot.SetAxisLimits(yMin: 0, yMax: 1);
+            plot.Title("Графік емпіричної функції розподілу");
+            plot.XAxis.Label("Значення");
+            plot.YAxis.Label("Вірогідність");
+        }
+
+        private void BuildCumulativeProbabilityFunctionButtonClick(object sender, RoutedEventArgs e)
+        {
+            var plot = CumulativeProbabilityChart.Plot;
 
             var key = typeof(GroupedData);
 
@@ -359,12 +399,8 @@ namespace DA_Lab_1
             var ys = groupedDatas.Select(data => data.EmpiricFunctionValue).ToArray();
 
             plot.AddScatterStep(xs, ys);
-            plot.SetAxisLimits(yMin: 0, yMax: 1);
-            plot.Title("Графік емпіричної функції розподілу");
-            plot.XAxis.Label("Значення");
-            plot.YAxis.Label("Вірогідність");
 
-            CumulativeProbabilityHistogram.Refresh();
+            CumulativeProbabilityChart.Refresh();
         }
 
         #endregion
