@@ -105,7 +105,10 @@ namespace DA_Lab_1
 
         private void UpdateGroupedDataGrid()
         {
-            var rowDatas = _datas[typeof(RowData)].ToTemplateDataList<RowData>();
+            var rowDatas = _datas.GetValue(typeof(RowData))?.ToTemplateDataList<RowData>();
+
+            if (rowDatas == null)
+                return;
 
             Reset();
 
@@ -153,10 +156,40 @@ namespace DA_Lab_1
 
             if (KParameterTextBox?.Text != null)
             {
-                KParameterTextBox.Text = string.Format($"K={Characteristics.OutlieK}");
+                KParameterTextBox.Text = string.Format($"K={Characteristics.OutlieK.ToFormattedString()}");
                 
                 UpdateGroupedDataGrid();
             } 
+        }
+
+        private void DeleteOutlieGroupedDataButtonClick(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show(
+                "Ви впевнені, що хочете видалити аномальні значення?",
+                "Видалення аномальних значень",
+                MessageBoxButton.YesNo);
+
+            if (messageBoxResult == MessageBoxResult.No)
+                return;
+        }
+
+        private void InputKParameterButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!double.TryParse(KParameterTextBox.Text, out double result))
+                return;
+
+            try
+            {
+                Characteristics.SetOutlieK(result);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка при спробі призначення К: {ex.Message}");
+                return;
+            }
+
+            KParameterSlider.Value = result;
+            UpdateGroupedDataGrid();
         }
 
         #endregion

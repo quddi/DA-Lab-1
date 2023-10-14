@@ -374,7 +374,7 @@ namespace DA_Lab_1
         public static void SetOutlieK(double value)
         {
             if (value < 1.5 || value > 3)
-                throw new ArgumentOutOfRangeException($"Значення K має належати проміжку [1,5; 3], а було {value}!");
+                throw new ArgumentOutOfRangeException($"Значення K має належати проміжку [1,5; 3], а належить {value}!");
 
             _outlieK = value;
         }
