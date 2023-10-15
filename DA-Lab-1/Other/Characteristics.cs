@@ -42,6 +42,8 @@ namespace DA_Lab_1
         private static double? _downOutlieEdge;
         private static double? _upOutlieEdge;
         private static double _outlieK = 1.5;
+        private static double? _skewnessStatistics;
+        private static double? _kurtosisStatistics;
         private static int? _count;
         private static int? _classesCount;
 
@@ -332,6 +334,26 @@ namespace DA_Lab_1
             }
         }
 
+        public static double SkewnessStatistics
+        {
+            get
+            {
+                if (_skewnessStatistics == null) ComputeSkewnessStatistics();
+
+                return _skewnessStatistics.Value;
+            }
+        }
+
+        public static double KurtosisStatistics
+        {
+            get
+            {
+                if (_kurtosisStatistics == null) ComputeKurtosisStatistics();
+
+                return _kurtosisStatistics.Value;
+            }
+        }
+
         private const double Alpha = 0.05;
         private const double C0 = 2.515517;
         private const double C1 = 0.802853;
@@ -375,6 +397,8 @@ namespace DA_Lab_1
             _classWidth = null;
             _count = null;
             _classesCount = null;
+            _kurtosisStatistics = null;
+            _skewnessStatistics = null;
         }
 
         #region Public setters
@@ -573,6 +597,22 @@ namespace DA_Lab_1
             _upOutlieEdge = ThirdQuartile + OutlieK * delta;
         }
 
+        private static void ComputeSkewnessStatistics()
+        {
+            _skewnessStatistics =
+                SecondSkewnessCoefficient
+                /
+                GetSkewnessCoefficientRootMeanSquareDeviation(Count);
+        }
+
+        private static void ComputeKurtosisStatistics()
+        {
+            _kurtosisStatistics =
+                SecondKurtosisCoefficient
+                /
+                GetKurtosisCoefficientRootMeanSquareDeviation(Count);
+        }
+
         public static double GetGaussCore(double u)
         {
             return Math.Exp(-1.0 * u * u / 2) / Math.Sqrt(2 * Math.PI);
@@ -596,6 +636,18 @@ namespace DA_Lab_1
             }).Sum();
 
             return sum * ClassWidth / denominator;
+        }
+
+        public static double GetStudentDistributionQuantile(double p, double v)
+        {
+            var uP = GetNormalDistributionQuantile(p);
+
+            var g1 = GetG1(uP);
+            var g2 = GetG2(uP);
+            var g3 = GetG3(uP);
+            var g4 = GetG4(uP);
+
+            return uP + (g1 / v) + (g2 / Math.Pow(uP, 2)) + (g3 / Math.Pow(uP, 3)) + (g4 / Math.Pow(uP, 4));
         }
 
         private static double GetQuantileT(double a) => Math.Sqrt(-2 * Math.Log2(a));
@@ -625,18 +677,6 @@ namespace DA_Lab_1
         private static double GetG3(double uP) => (3 * Math.Pow(uP, 7) + 19 * Math.Pow(uP, 5) + 17 * Math.Pow(uP, 3) - 15 * uP) / 384;
 
         private static double GetG4(double uP) => (79 * Math.Pow(uP, 9) + 779 * Math.Pow(uP, 7) + 1482 * Math.Pow(uP, 5) - 1920 * Math.Pow(uP, 3) - 945 * uP) / 92160;
-
-        private static double GetStudentDistributionQuantile(double p, double v)
-        {
-            var uP = GetNormalDistributionQuantile(p);
-
-            var g1 = GetG1(uP);
-            var g2 = GetG2(uP);
-            var g3 = GetG3(uP);
-            var g4 = GetG4(uP);
-
-            return uP + (g1 / v) + (g2 / Math.Pow(uP, 2)) + (g3 / Math.Pow(uP, 3)) + (g4 / Math.Pow(uP, 4));
-        }
 
         //Sigma
         private static double GetMeanSquaredStandardDeviation(double S, int N) => S / Math.Sqrt(N);

@@ -31,13 +31,14 @@ namespace DA_Lab_1
         private void ComputeCharacteristicsButtonClick(object sender, RoutedEventArgs e)
         {
             var rowDatas = _datas[typeof(RowData)]?.ToTemplateDataList<RowData>();
+            var groupedDatas = _datas[typeof(GroupedData)]?.ToTemplateDataList<GroupedData>();
 
-            if (rowDatas == null)
+            if (rowDatas == null || groupedDatas == null)
                 throw new InvalidOperationException($"Для розрахунку характеристик завантажте дані!");
 
             var characteristicsWindow = (CharacteristicsWindow)WindowsResponsible.ShowWindow<CharacteristicsWindow>();
 
-            characteristicsWindow.InitializeComponent(new List<RowData>(rowDatas));
+            characteristicsWindow.InitializeComponent(new List<RowData>(rowDatas), new List<GroupedData>(groupedDatas));
         }
 
         private void KParameterSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

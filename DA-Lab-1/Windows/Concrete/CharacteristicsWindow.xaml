@@ -5,29 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DA_Lab_1"
         mc:Ignorable="d"
-        Title="CharacteristicsWindow" Height="265" Width="836">
-    <Grid Margin="0,0,0,-6" Height="231" Width="811">
-        <Image Margin="10,0,10,0" Source="/Windows/Concrete/CharacteristicsBackground.png" Height="212" VerticalAlignment="Center"/>
-        <TextBox x:Name="MeanGradeText" HorizontalAlignment="Left" Margin="314,59,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="MedianGradeText" HorizontalAlignment="Left" Margin="314,82,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="StandardDeviationGradeText" HorizontalAlignment="Left" Margin="314,0,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="75" Height="22" TextAlignment="Center"/>
-        <TextBox x:Name="SkewnessCoefficientGradeText" HorizontalAlignment="Left" Margin="314,126,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="KurtosisCoefficientGradeText" HorizontalAlignment="Left" Margin="314,149,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="22" TextAlignment="Center"/>
-        <TextBox x:Name="MinGradeText" HorizontalAlignment="Left" Margin="314,171,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="MaxGradeText" HorizontalAlignment="Left" Margin="314,194,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="22" TextAlignment="Center"/>
-        <TextBox x:Name="MeanMSDEText" HorizontalAlignment="Left" Margin="389,59,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="201" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="MedianMSDEText" HorizontalAlignment="Left" Margin="389,82,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="201" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="StandardDeviationMSDEText" HorizontalAlignment="Left" Margin="389,0,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="201" Height="22" TextAlignment="Center"/>
-        <TextBox x:Name="SkewnessCoefficientMSDEText" HorizontalAlignment="Left" Margin="389,126,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="201" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="KurtosisCoefficientMSDEText" HorizontalAlignment="Left" Margin="389,149,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="201" Height="22" TextAlignment="Center"/>
-        <TextBox x:Name="MinMSDEText" HorizontalAlignment="Left" Margin="389,171,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="201" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="MaxMSDEText" HorizontalAlignment="Left" Margin="389,194,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="201" Height="22" TextAlignment="Center"/>
-        <TextBox x:Name="MeanTrustIntervalText" HorizontalAlignment="Left" Margin="590,59,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="208" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="MedianTrustIntervalText" HorizontalAlignment="Left" Margin="590,82,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="208" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="StandardDeviationTrustIntervalText" HorizontalAlignment="Left" Margin="590,0,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="208" Height="22" TextAlignment="Center"/>
-        <TextBox x:Name="SkewnessCoefficientTrustIntervalText" HorizontalAlignment="Left" Margin="590,126,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="208" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="KurtosisCoefficientTrustIntervalText" HorizontalAlignment="Left" Margin="590,149,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="208" Height="22" TextAlignment="Center"/>
-        <TextBox x:Name="MinTrustIntervalText" HorizontalAlignment="Left" Margin="590,171,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="208" Height="23" TextAlignment="Center"/>
-        <TextBox x:Name="MaxTrustIntervalText" HorizontalAlignment="Left" Margin="590,194,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="208" Height="22" TextAlignment="Center"/>
+        Title="CharacteristicsWindow" Height="324" Width="1193">
+    <Grid Height="289" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1180">
+        <Image Margin="0,1,386,0" Source="/Windows/Concrete/CharacteristicsBackground.png" Height="212" VerticalAlignment="Top"/>
+        <TextBox x:Name="MeanGradeText" HorizontalAlignment="Left" Margin="305,48,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="MedianGradeText" HorizontalAlignment="Left" Margin="305,71,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="StandardDeviationGradeText" HorizontalAlignment="Left" Margin="305,94,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="22" TextAlignment="Center"/>
+        <TextBox x:Name="SkewnessCoefficientGradeText" HorizontalAlignment="Left" Margin="305,116,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="KurtosisCoefficientGradeText" HorizontalAlignment="Left" Margin="305,139,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="22" TextAlignment="Center"/>
+        <TextBox x:Name="MinGradeText" HorizontalAlignment="Left" Margin="305,161,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="MaxGradeText" HorizontalAlignment="Left" Margin="305,184,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="75" Height="22" TextAlignment="Center"/>
+        <TextBox x:Name="MeanMSDEText" HorizontalAlignment="Left" Margin="380,48,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="202" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="MedianMSDEText" HorizontalAlignment="Left" Margin="380,71,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="202" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="StandardDeviationMSDEText" HorizontalAlignment="Left" Margin="380,94,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="202" Height="22" TextAlignment="Center"/>
+        <TextBox x:Name="SkewnessCoefficientMSDEText" HorizontalAlignment="Left" Margin="380,116,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="202" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="KurtosisCoefficientMSDEText" HorizontalAlignment="Left" Margin="380,139,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="202" Height="22" TextAlignment="Center"/>
+        <TextBox x:Name="MinMSDEText" HorizontalAlignment="Left" Margin="380,161,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="202" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="MaxMSDEText" HorizontalAlignment="Left" Margin="380,184,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="202" Height="22" TextAlignment="Center"/>
+        <TextBox x:Name="MeanTrustIntervalText" HorizontalAlignment="Left" Margin="582,48,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="208" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="MedianTrustIntervalText" HorizontalAlignment="Left" Margin="582,71,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="208" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="StandardDeviationTrustIntervalText" HorizontalAlignment="Left" Margin="582,94,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="208" Height="22" TextAlignment="Center"/>
+        <TextBox x:Name="SkewnessCoefficientTrustIntervalText" HorizontalAlignment="Left" Margin="582,116,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="208" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="KurtosisCoefficientTrustIntervalText" HorizontalAlignment="Left" Margin="582,139,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="208" Height="22" TextAlignment="Center"/>
+        <TextBox x:Name="MinTrustIntervalText" HorizontalAlignment="Left" Margin="582,161,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="208" Height="23" TextAlignment="Center"/>
+        <TextBox x:Name="MaxTrustIntervalText" HorizontalAlignment="Left" Margin="582,184,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="208" Height="22" TextAlignment="Center"/>
+        <WpfPlot x:Name="ProbabilityPaperChart" Margin="794,5,10,83"/>
+        <Button x:Name="IdentifyBySkewnessButton" Content="Ідентифікувати розподіл на основі коефіцієнту асиметрії" HorizontalAlignment="Left" Margin="5,215,0,10" Width="375" Click="IdentifyBySkewnessButtonClick"/>
+        <Button x:Name="IdentifyByKurtosisButton" Content="Ідентифікувати розподіл на основі коефіцієнту ексцесу" HorizontalAlignment="Left" Margin="385,215,0,10" Width="405" Click="IdentifyByKurtosisButtonClick"/>
+        <Button x:Name="BuildProbabilityPaperButton" Content="Ідентифікувати розподіл на основі коефіцієнту ексцесу" HorizontalAlignment="Left" Margin="795,215,0,10" Width="375" Click="BuildProbabilityPaperButtonClick"/>
     </Grid>
 </Window>

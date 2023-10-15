@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DA_Lab_1
 {
-    internal abstract class DataConverter<T1, T2> : IDataConverter where T1 : IData where T2 : IData
+    public abstract class DataConverter<T1, T2> : IDataConverter where T1 : IData where T2 : IData
     {
         public Type FromType => typeof(T1);
 

@@ -1,12 +1,9 @@
-﻿using ScottPlot;
-using System;
-using System.CodeDom;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Binding = System.Windows.Data.Binding;
 
 namespace DA_Lab_1
@@ -118,6 +115,7 @@ namespace DA_Lab_1
 
             _datas[typeof(RowData)] = newRowDatas.ToGeneralDataList();
 
+            Characteristics.SetDatas(newRowDatas.ToTemplateDataList<RowData>());
             VisualizeGroupedData(drawAnomaliesChart: true);
             ClassifyData();
             UpdateCumulativeProbabilityChart(refinedGroupedData);

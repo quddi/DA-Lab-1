@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DA_Lab_1
 {
-    interface IDataConverter
+    public interface IDataConverter
     {
         Type FromType { get; }
 

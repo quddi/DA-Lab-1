@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows;
 
@@ -7,23 +8,27 @@ namespace DA_Lab_1
 {
     public partial class CharacteristicsWindow : Window
     {
-        private List<RowData>? _datas;
+        private List<RowData> _rowDatas;
+        private List<GroupedData> _groupedDatas;
+
+        private readonly Color ProbabilityPaperPointsColor = Color.Red;
 
         public CharacteristicsWindow() 
         { 
             InitializeComponent(); 
         }
 
-        public void InitializeComponent(List<RowData>? datas)
+        public void InitializeComponent(List<RowData> rowDatas, List<GroupedData> groupedDatas)
         {
-            _datas = datas;
+            _rowDatas = rowDatas;
+            _groupedDatas = groupedDatas.OrderBy(data => data.VariantValue).ToList();
 
             ComputeCharacteristics();
         }
       
         private void ComputeCharacteristics()
         {
-            if (_datas == null)
+            if (_rowDatas == null)
                 throw new InvalidOperationException($"Для розрахунку необхідні row datas!");
             
             DisplayCharacteristics();
@@ -102,5 +107,41 @@ namespace DA_Lab_1
         {
             MaxGradeText.Text = Characteristics.Max.ToFormattedString();
         }
+
+        #region Buttons handlers
+        private void IdentifyBySkewnessButtonClick(object sender, RoutedEventArgs e)
+        {
+            var identified = Math.Abs(Characteristics.SkewnessStatistics) <= Characteristics.StudentQuantile;
+
+            MessageBox.Show(identified ?
+                string.Format($"Нормальний розподіл ідентифікується.\n|{Characteristics.SkewnessStatistics}| <= {Characteristics.StudentQuantile}") :
+                string.Format($"Нормальний розподіл не ідентифікується.\n|{Characteristics.SkewnessStatistics}| <= {Characteristics.StudentQuantile}"));
+        }
+
+        private void IdentifyByKurtosisButtonClick(object sender, RoutedEventArgs e)
+        {
+            var identified = Math.Abs(Characteristics.KurtosisStatistics) <= Characteristics.StudentQuantile;
+
+            MessageBox.Show(identified ?
+                string.Format($"Нормальний розподіл ідентифікується.\n|{Characteristics.KurtosisStatistics}| < {Characteristics.StudentQuantile}") :
+                string.Format($"Нормальний розподіл не ідентифікується.\n|{Characteristics.KurtosisStatistics}| < {Characteristics.StudentQuantile}"));
+        }
+
+        private void BuildProbabilityPaperButtonClick(object sender, RoutedEventArgs e)
+        {
+            var plot = ProbabilityPaperChart.Plot;
+
+            plot.Clear();
+
+            var transformedDatas = MainDataConverter.Handle<GroupedData, TransformedGroupedData>(_groupedDatas);
+
+            foreach (var transformedData in transformedDatas)
+            {
+                plot.AddPoint(transformedData.T, transformedData.Z, ProbabilityPaperPointsColor);
+            }
+
+            ProbabilityPaperChart.Refresh();
+        }
+        #endregion
     }
 }
