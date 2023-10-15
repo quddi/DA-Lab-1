@@ -14,11 +14,6 @@ namespace DA_Lab_1
 
             var uniqueValues = datas.Select(rowData => rowData.VariantValue).Distinct().ToList();
 
-            var delta = Characteristics.ThirdQuartile - Characteristics.FirstQuartile;
-
-            var downOutlieEdge = Characteristics.FirstQuartile - Characteristics.OutlieK  * delta;
-            var upOutlieEdge = Characteristics.ThirdQuartile + Characteristics.OutlieK * delta;
-
             for (int i = 0; i < uniqueValues.Count; i++)
             {
                 double currentValue = uniqueValues[i];
@@ -29,7 +24,7 @@ namespace DA_Lab_1
 
                 double empiricFunctionValue = (double)datas.Count(rowData => rowData.VariantValue <= currentValue) / datas.Count;
 
-                bool isOutlie = currentValue < downOutlieEdge || currentValue > upOutlieEdge;
+                bool isOutlie = currentValue < Characteristics.DownOutlieEdge || currentValue > Characteristics.UpOutlieEdge;
 
                 var groupedData = new GroupedData()
                 {

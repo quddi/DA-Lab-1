@@ -39,6 +39,8 @@ namespace DA_Lab_1
         private static double? _classWidth;
         private static double? _firstQuartile;
         private static double? _thirdQuartile;
+        private static double? _downOutlieEdge;
+        private static double? _upOutlieEdge;
         private static double _outlieK = 1.5;
         private static int? _count;
         private static int? _classesCount;
@@ -310,6 +312,26 @@ namespace DA_Lab_1
             }
         }
 
+        public static double DownOutlieEdge
+        {
+            get
+            {
+                if (_downOutlieEdge == null) ComputeOutlieEdges();
+
+                return _downOutlieEdge.Value;
+            }
+        }
+
+        public static double UpOutlieEdge
+        {
+            get
+            {
+                if (_upOutlieEdge == null) ComputeOutlieEdges();
+
+                return _upOutlieEdge.Value;
+            }
+        }
+
         private const double Alpha = 0.05;
         private const double C0 = 2.515517;
         private const double C1 = 0.802853;
@@ -541,6 +563,14 @@ namespace DA_Lab_1
             _thirdQuartile = thirdQuartileIndex == thirdRoundedIndex
                 ? _datas[thirdRoundedIndex].VariantValue
                 : (_datas[thirdRoundedIndex].VariantValue + _datas[thirdRoundedIndex + 1].VariantValue) / 2.0;
+        }
+
+        private static void ComputeOutlieEdges()
+        {
+            var delta = ThirdQuartile - FirstQuartile;
+
+            _downOutlieEdge = FirstQuartile - OutlieK * delta;
+            _upOutlieEdge = ThirdQuartile + OutlieK * delta;
         }
 
         public static double GetGaussCore(double u)

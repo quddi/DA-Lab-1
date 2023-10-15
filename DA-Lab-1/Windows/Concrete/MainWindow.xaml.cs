@@ -1,5 +1,7 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +15,9 @@ namespace DA_Lab_1
 
         private const int MinClassifiedDatasAmount = 1;
         private const int KDEPointsAmount = 1000;
+        private readonly Color OutliePointsColor = Color.Red;
+        private readonly Color NormalPointsColor = Color.Black;
+        private readonly Color OutlieEdgesLinesColor = Color.Purple;
 
         public MainWindow()
         {
@@ -92,7 +97,6 @@ namespace DA_Lab_1
         {
             var rowDatas = DataLoader.LoadValues()?
                 .Select(value => new RowData() { VariantValue = value })
-                .OrderBy(rowData => rowData.VariantValue)
                 .ToList();
 
             if (rowDatas == null)
@@ -102,21 +106,26 @@ namespace DA_Lab_1
                 return;
             }
 
+            Reset();
+
             _datas.AddPair(typeof(RowData), rowDatas.ToGeneralDataList());
+
+            Characteristics.SetDatas(rowDatas);
+
+            UpdateAnomaliesPointsChart();
 
             UpdateGroupedDataGrid();
         }
 
         private void UpdateGroupedDataGrid()
         {
-            var rowDatas = _datas.GetValue(typeof(RowData))?.ToTemplateDataList<RowData>();
+            var rowDatas = _datas.GetValue(typeof(RowData))?
+                .Cast<RowData>()
+                .OrderBy(data => data.VariantValue)
+                .ToList();
 
             if (rowDatas == null)
                 return;
-
-            Reset();
-
-            Characteristics.SetDatas(rowDatas);
 
             var groupedDatas = MainDataConverter.Handle<RowData, GroupedData>(rowDatas);
 
@@ -139,6 +148,30 @@ namespace DA_Lab_1
             }
         }
 
+        private void UpdateAnomaliesPointsChart()
+        {
+            var rowDatas = _datas[typeof(RowData)].ToTemplateDataList<RowData>();
+
+            var plot = AnomaliesPointsChart.Plot;
+
+            plot.Clear();
+
+            for (int i = 0; i < rowDatas.Count; i++)
+            {
+                var pointValue = rowDatas[i].VariantValue;
+
+                var pointColor = Characteristics.DownOutlieEdge < pointValue && pointValue < Characteristics.UpOutlieEdge
+                    ? NormalPointsColor : OutliePointsColor;
+
+                plot.AddPoint(i, pointValue, pointColor);
+            }
+
+            plot.AddFunction(x => Characteristics.DownOutlieEdge, OutlieEdgesLinesColor);
+            plot.AddFunction(x => Characteristics.UpOutlieEdge, OutlieEdgesLinesColor);
+
+            AnomaliesPointsChart.Refresh();
+        }
+
         private void Reset()
         {
             Characteristics.Reset();
@@ -154,6 +187,8 @@ namespace DA_Lab_1
             ClassedDataGrid.Items.Clear();
 
             GroupedDataGrid.Items.Clear();
+
+            AnomaliesPointsChart.Plot.Clear();
         }
 
         private void KParameterSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -187,6 +222,7 @@ namespace DA_Lab_1
 
             FillGroupedDatasGrid();
             ClassifyData();
+            UpdateAnomaliesPointsChart();
         }
 
         private void InputKParameterButtonClick(object sender, RoutedEventArgs e)
