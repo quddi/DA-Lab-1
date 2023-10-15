@@ -342,7 +342,7 @@ namespace DA_Lab_1
 
         public static void SetDatas(List<RowData>? datas)
         {
-            _datas = datas;
+            _datas = datas?.OrderBy(data => data.VariantValue).ToList();
         }
 
         public static void Reset()

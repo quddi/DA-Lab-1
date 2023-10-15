@@ -25,97 +25,11 @@ namespace DA_Lab_1
 
             WindowsResponsible.Initialize(this);
 
-            CreateGroupedDataGrid();
-
-            PrepareClassifiedDataGrid();
-
-            PrepareBarChart();
-
-            PrepareCumulativeProbabilityChart();
-
-            PrepareAnomaliesPointsChart();
-        
-            GroupedDataGrid.IsReadOnly = true;
+            PrepareAll();
         }
 
         #region Groupped data
-        private void CreateGroupedDataGrid()
-        {
-            GroupedDataGrid.Columns.Clear();
-
-            DataGridTextColumn variantNumColumn = new DataGridTextColumn()
-            {
-                Header = "№",
-                Binding = new Binding(nameof(GroupedData.VariantNum)),
-                Width = 30
-            };
-
-            DataGridTextColumn variantValueColumn = new DataGridTextColumn()
-            {
-                Header = "Значення",
-                Binding = new Binding(nameof(GroupedData.VariantValue)),
-                Width = 70
-            };
-
-            DataGridTextColumn frequencyColumn = new DataGridTextColumn() 
-            { 
-                Header = "Частота",
-                Binding = new Binding(nameof(GroupedData.Frequency)),
-                Width = 60
-            };
-
-            DataGridTextColumn relativeFrequencyColumn = new DataGridTextColumn() 
-            { 
-                Header = "Відносна частота",
-                Binding = new Binding(nameof(GroupedData.FormattedRelativeFrequency)),
-                Width = 110
-            };
-
-            DataGridTextColumn empFunctionValueColumn = new DataGridTextColumn() 
-            { 
-                Header = "Значення емп. ф-ї",
-                Binding = new Binding(nameof(GroupedData.FormattedEmpiricFunctionValue)),
-                Width = 110
-            };
-
-            DataGridCheckBoxColumn isOutlieColumn = new DataGridCheckBoxColumn()
-            {
-                Header = "Аномальне",
-                Binding = new Binding(nameof(GroupedData.IsOutlier)),
-                Width = new DataGridLength(1, DataGridLengthUnitType.Star)
-            };
-
-            GroupedDataGrid.Columns.Add(variantNumColumn);
-            GroupedDataGrid.Columns.Add(variantValueColumn);
-            GroupedDataGrid.Columns.Add(frequencyColumn);
-            GroupedDataGrid.Columns.Add(relativeFrequencyColumn);
-            GroupedDataGrid.Columns.Add(empFunctionValueColumn);
-            GroupedDataGrid.Columns.Add(isOutlieColumn);
-        }
-
-        private void UploadFileButtonClick(object sender, RoutedEventArgs e)
-        {
-            var rowDatas = DataLoader.LoadValues()?
-                .Select(value => new RowData() { VariantValue = value })
-                .ToList();
-
-            if (rowDatas == null)
-            {
-                MessageBox.Show("Список значень був пустий!");
-
-                return;
-            }
-
-            Reset();
-
-            _datas.AddPair(typeof(RowData), rowDatas.ToGeneralDataList());
-
-            Characteristics.SetDatas(rowDatas);
-
-            UpdateAnomaliesPointsChart();
-
-            UpdateGroupedDataGrid();
-        }
+        
 
         private void UpdateGroupedDataGrid()
         {
@@ -191,85 +105,11 @@ namespace DA_Lab_1
             AnomaliesPointsChart.Plot.Clear();
         }
 
-        private void KParameterSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            Characteristics.SetOutlieK(KParameterSlider.Value);
-
-            if (KParameterTextBox?.Text != null)
-            {
-                KParameterTextBox.Text = string.Format($"K={Characteristics.OutlieK.ToFormattedString()}");
-                
-                UpdateGroupedDataGrid();
-            } 
-        }
-
-        private void DeleteOutlieGroupedDataButtonClick(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult messageBoxResult = MessageBox.Show(
-                "Ви впевнені, що хочете видалити аномальні значення?",
-                "Видалення аномальних значень",
-                MessageBoxButton.YesNo);
-
-            if (messageBoxResult == MessageBoxResult.No)
-                return;
-
-            var groupedDatas = _datas[typeof(GroupedData)]
-                .Cast<GroupedData>()
-                .Where(data => !data.IsOutlier)
-                .ToGeneralDataList();
-
-            _datas[typeof(GroupedData)] = groupedDatas;
-
-            FillGroupedDatasGrid();
-            ClassifyData();
-            UpdateAnomaliesPointsChart();
-        }
-
-        private void InputKParameterButtonClick(object sender, RoutedEventArgs e)
-        {
-            if (!double.TryParse(KParameterTextBox.Text, out double result))
-                return;
-
-            try
-            {
-                Characteristics.SetOutlieK(result);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Помилка при спробі призначення К: {ex.Message}");
-                return;
-            }
-
-            KParameterSlider.Value = result;
-            UpdateGroupedDataGrid();
-        }
-
-        private void PrepareAnomaliesPointsChart()
-        {
-            var plot = AnomaliesPointsChart.Plot;
-
-            plot.Title("Аномальні значення");
-            plot.YAxis.Label("Значення елементу");
-            plot.XAxis.Label("Індекс елементу");
-        }
+        
 
         #endregion
 
         #region Classified data
-        private void PrepareClassifiedDataGrid()
-        {
-            ((DataGridTextColumn)ClassedDataGrid.Columns[0]).Binding = new Binding(nameof(ClassifiedData.ClassNum));
-            ((DataGridTextColumn)ClassedDataGrid.Columns[1]).Binding = new Binding(nameof(ClassifiedData.FormattedEdges));
-            ((DataGridTextColumn)ClassedDataGrid.Columns[2]).Binding = new Binding(nameof(ClassifiedData.Frequency));
-            ((DataGridTextColumn)ClassedDataGrid.Columns[3]).Binding = new Binding(nameof(ClassifiedData.FormattedRelativeFrequency));
-            ((DataGridTextColumn)ClassedDataGrid.Columns[4]).Binding = new Binding(nameof(ClassifiedData.FormattedEmpiricFunctionValue));
-        }
-
-        private void ClassifyDataButtonClick(object sender, RoutedEventArgs e)
-        {
-            ClassifyData();
-        }
-
         private void ClassifyData()
         {
             if (!_datas.ContainsKey(typeof(GroupedData)))
@@ -327,14 +167,7 @@ namespace DA_Lab_1
         #endregion
 
         #region Bar chart
-        private void PrepareBarChart()
-        {
-            var plot = HistogramChart.Plot;
-
-            plot.Title("Гістограма і ядерна оцінка"); 
-            plot.YAxis.Label("Відносна частота");
-            plot.XAxis.Label("Значення");
-        }
+        
 
         private void UpdateBarChart()
         {
@@ -359,50 +192,105 @@ namespace DA_Lab_1
             HistogramChart.Refresh();
         }
 
-        private void BuildKernelDensityEstimationFunctionButtonClick(object sender, RoutedEventArgs e)
-        {
-            if (!WindowsResponsible.IsWindowOpened<CharacteristicsWindow>())
-            {
-                MessageBox.Show("Для побудови функції ядерної оцінки відкрийте вікно характеристик і натисніть ще раз!");
-                return;
-            }
 
-            var parsed = double.TryParse(BandWidthTextBox.Text, out double bandwidth);
-
-            if (!parsed)
-            {
-                MessageBox.Show("Ширину вікна або не було введено, або було введено некоректно, тому значення розраховано автоматично!");
-
-                Characteristics.SetBandwidth(null);
-
-                BandWidthTextBox.Text = Characteristics.Bandwidth.ToFormattedString();
-            }
-            else
-            {
-                Characteristics.SetBandwidth(bandwidth);
-            }
-
-            var plot = HistogramChart.Plot;
-
-            var delta = (Characteristics.Max - Characteristics.Min) / KDEPointsAmount;
-
-            var pointsColor = ExtensionsMethods.GetRandomColor();
-
-            for (int i = 0; i < KDEPointsAmount + 1; i++)
-            {
-                var x = Characteristics.Min + i * delta;
-
-                var y = Characteristics.GetKernelDensityEstimation(x);
-
-                plot.AddPoint(x, y, pointsColor);
-            }
-
-            HistogramChart.Refresh();
-        }
 
         #endregion
 
-        #region Comulative Probability Histogram
+        #region Preparations
+        private void PrepareAll()
+        {
+            PrepareGroupedDataGrid();
+            PrepareClassifiedDataGrid();
+            PrepareAnomaliesPointsChart();
+            PrepareBarChart();
+            PrepareCumulativeProbabilityChart();
+        }
+
+        private void PrepareGroupedDataGrid()
+        {
+            GroupedDataGrid.Columns.Clear();
+
+            DataGridTextColumn variantNumColumn = new DataGridTextColumn()
+            {
+                Header = "№",
+                Binding = new Binding(nameof(GroupedData.VariantNum)),
+                Width = 30
+            };
+
+            DataGridTextColumn variantValueColumn = new DataGridTextColumn()
+            {
+                Header = "Значення",
+                Binding = new Binding(nameof(GroupedData.VariantValue)),
+                Width = 70
+            };
+
+            DataGridTextColumn frequencyColumn = new DataGridTextColumn()
+            {
+                Header = "Частота",
+                Binding = new Binding(nameof(GroupedData.Frequency)),
+                Width = 60
+            };
+
+            DataGridTextColumn relativeFrequencyColumn = new DataGridTextColumn()
+            {
+                Header = "Відносна частота",
+                Binding = new Binding(nameof(GroupedData.FormattedRelativeFrequency)),
+                Width = 110
+            };
+
+            DataGridTextColumn empFunctionValueColumn = new DataGridTextColumn()
+            {
+                Header = "Значення емп. ф-ї",
+                Binding = new Binding(nameof(GroupedData.FormattedEmpiricFunctionValue)),
+                Width = 110
+            };
+
+            DataGridCheckBoxColumn isOutlieColumn = new DataGridCheckBoxColumn()
+            {
+                Header = "Аномальне",
+                Binding = new Binding(nameof(GroupedData.IsOutlier)),
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star)
+            };
+
+            GroupedDataGrid.Columns.Add(variantNumColumn);
+            GroupedDataGrid.Columns.Add(variantValueColumn);
+            GroupedDataGrid.Columns.Add(frequencyColumn);
+            GroupedDataGrid.Columns.Add(relativeFrequencyColumn);
+            GroupedDataGrid.Columns.Add(empFunctionValueColumn);
+            GroupedDataGrid.Columns.Add(isOutlieColumn);
+
+            GroupedDataGrid.IsReadOnly = true;
+        }
+
+        private void PrepareClassifiedDataGrid()
+        {
+            ((DataGridTextColumn)ClassedDataGrid.Columns[0]).Binding = new Binding(nameof(ClassifiedData.ClassNum));
+            ((DataGridTextColumn)ClassedDataGrid.Columns[1]).Binding = new Binding(nameof(ClassifiedData.FormattedEdges));
+            ((DataGridTextColumn)ClassedDataGrid.Columns[2]).Binding = new Binding(nameof(ClassifiedData.Frequency));
+            ((DataGridTextColumn)ClassedDataGrid.Columns[3]).Binding = new Binding(nameof(ClassifiedData.FormattedRelativeFrequency));
+            ((DataGridTextColumn)ClassedDataGrid.Columns[4]).Binding = new Binding(nameof(ClassifiedData.FormattedEmpiricFunctionValue));
+
+            ClassedDataGrid.IsReadOnly = true;
+        }
+
+        private void PrepareAnomaliesPointsChart()
+        {
+            var plot = AnomaliesPointsChart.Plot;
+
+            plot.Title("Аномальні значення");
+            plot.YAxis.Label("Значення елементу");
+            plot.XAxis.Label("Індекс елементу");
+        }
+
+        private void PrepareBarChart()
+        {
+            var plot = HistogramChart.Plot;
+
+            plot.Title("Гістограма і ядерна оцінка");
+            plot.YAxis.Label("Відносна частота");
+            plot.XAxis.Label("Значення");
+        }
+
         private void PrepareCumulativeProbabilityChart()
         {
             var plot = CumulativeProbabilityChart.Plot;
@@ -411,47 +299,6 @@ namespace DA_Lab_1
             plot.Title("Графік емпіричної функції розподілу");
             plot.XAxis.Label("Значення");
             plot.YAxis.Label("Вірогідність");
-        }
-
-        private void BuildCumulativeProbabilityFunctionButtonClick(object sender, RoutedEventArgs e)
-        {
-            var plot = CumulativeProbabilityChart.Plot;
-
-            var key = typeof(GroupedData);
-
-            if (!_datas.ContainsKey(key))
-            {
-                MessageBox.Show("Для побудови графіку емпіричної функції розподілу необхідна наявність сгрупованих даних!");
-                return;
-            }
-
-            plot.Clear();
-
-            var groupedDatas = _datas[key]
-                .ToTemplateDataList<GroupedData>()
-                .OrderBy(data => data.EmpiricFunctionValue);
-
-            var xs = groupedDatas.Select(data => data.VariantValue).ToArray();
-            var ys = groupedDatas.Select(data => data.EmpiricFunctionValue).ToArray();
-
-            plot.AddScatterStep(xs, ys);
-
-            CumulativeProbabilityChart.Refresh();
-        }
-
-        #endregion
-
-        #region Characteristics
-        private void ComputeCharacteristicsButtonClick(object sender, RoutedEventArgs e)
-        {
-            var rowDatas = _datas[typeof(RowData)]?.ToTemplateDataList<RowData>();
-
-            if (rowDatas == null)
-                throw new InvalidOperationException($"Для розрахунку характеристик завантажте дані!");
-
-            var characteristicsWindow = (CharacteristicsWindow)WindowsResponsible.ShowWindow<CharacteristicsWindow>();
-
-            characteristicsWindow.InitializeComponent(new List<RowData>(rowDatas));
         }
         #endregion
     }
