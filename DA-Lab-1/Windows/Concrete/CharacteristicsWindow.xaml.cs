@@ -15,7 +15,11 @@ namespace DA_Lab_1
 
         public CharacteristicsWindow() 
         { 
-            InitializeComponent(); 
+            InitializeComponent();
+
+            ResizeMode = ResizeMode.NoResize;
+
+            PrepareProbabilityPaperChart();
         }
 
         public void InitializeComponent(List<RowData> rowDatas, List<GroupedData> groupedDatas)
@@ -106,6 +110,15 @@ namespace DA_Lab_1
         private void DisplayMax()
         {
             MaxGradeText.Text = Characteristics.Max.ToFormattedString();
+        }
+
+        private void PrepareProbabilityPaperChart()
+        {
+            var plot = ProbabilityPaperChart.Plot;
+
+            plot.Title("Ймовірнісний папір");
+            plot.XLabel("t");
+            plot.YLabel("z");
         }
 
         #region Buttons handlers
