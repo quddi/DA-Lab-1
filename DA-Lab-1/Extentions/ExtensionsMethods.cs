@@ -14,11 +14,11 @@ namespace DA_Lab_1
             Color.Magenta,
             Color.Cyan,
             Color.Bisque,
-            Color.Gray,
-            Color.Black,
-            Color.Chocolate,
             Color.Fuchsia,
-            Color.Firebrick
+            Color.Firebrick,
+            Color.Coral,
+            Color.IndianRed,
+            Color.HotPink
         };
 
         private static readonly Random Random = new();

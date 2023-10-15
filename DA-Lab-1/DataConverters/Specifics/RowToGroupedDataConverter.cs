@@ -24,8 +24,6 @@ namespace DA_Lab_1
 
                 double empiricFunctionValue = (double)datas.Count(rowData => rowData.VariantValue <= currentValue) / datas.Count;
 
-                bool isOutlie = currentValue < Characteristics.DownOutlieEdge || currentValue > Characteristics.UpOutlieEdge;
-
                 var groupedData = new GroupedData()
                 {
                     VariantNum = i + 1,
@@ -33,7 +31,6 @@ namespace DA_Lab_1
                     Frequency = valuesAmount,
                     RelativeFrequency = currentRelativeFrequency,
                     EmpiricFunctionValue = empiricFunctionValue,
-                    IsOutlier = isOutlie,
                 };
 
                 result.Add(groupedData);

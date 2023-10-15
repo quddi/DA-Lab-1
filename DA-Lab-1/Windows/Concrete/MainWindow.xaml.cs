@@ -1,10 +1,12 @@
-﻿using System;
+﻿using ScottPlot;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Binding = System.Windows.Data.Binding;
 
 namespace DA_Lab_1
@@ -28,10 +30,39 @@ namespace DA_Lab_1
             PrepareAll();
         }
 
-        #region Groupped data
-        
+        #region General
+        private void Reset()
+        {
+            Characteristics.Reset();
 
-        private void UpdateGroupedDataGrid()
+            WindowsResponsible.HideWindow<CharacteristicsWindow>();
+
+            ClassedDataGrid.Items.Clear();
+
+            GroupedDataGrid.Items.Clear();
+
+            BarChart.Plot.Clear();
+            BarChart.Refresh();
+
+            CumulativeProbabilityChart.Plot.Clear();
+            CumulativeProbabilityChart.Refresh();
+
+            AnomaliesPointsChart.Plot.Clear();
+            AnomaliesPointsChart.Refresh();
+        }
+
+        private void SetNewDatas(List<RowData> rowDatas)
+        {
+            Reset();
+
+            _datas.AddPair(typeof(RowData), rowDatas.ToGeneralDataList());
+
+            Characteristics.SetDatas(rowDatas);
+
+            GroupData();
+        }
+
+        private void GroupData()
         {
             var rowDatas = _datas.GetValue(typeof(RowData))?
                 .Cast<RowData>()
@@ -45,13 +76,115 @@ namespace DA_Lab_1
 
             _datas.AddPair(typeof(GroupedData), groupedDatas.ToGeneralDataList());
 
-            FillGroupedDatasGrid();
+            VisualizeGroupedData(drawAnomaliesChart: false);
         }
 
-        private void FillGroupedDatasGrid()
+        private void FindOutlieGroupedData()
+        {
+            var groupedDatas = _datas.GetValue(typeof(GroupedData))?.ToTemplateDataList<GroupedData>();
+
+            if (groupedDatas == null) 
+                return;
+
+            foreach (var groupedData in groupedDatas)
+            {
+                var value = groupedData.VariantValue;
+
+                groupedData.IsOutlier = value < Characteristics.DownOutlieEdge || value > Characteristics.UpOutlieEdge;
+            }
+
+            VisualizeGroupedData(drawAnomaliesChart: true);
+        }
+
+        private void RemoveOutlierGroupedData()
+        {
+            var refinedGroupedData = _datas.GetValue(typeof(GroupedData))?
+                .Cast<GroupedData>()?
+                .Where(data => !data.IsOutlier)?
+                .ToList();
+
+            if (refinedGroupedData == null) 
+                return;
+
+            _datas[typeof(GroupedData)] = refinedGroupedData.ToGeneralDataList();
+
+            var oldRowDatas = _datas[typeof(RowData)].ToTemplateDataList<RowData>();
+
+            var newRowDatas = oldRowDatas.Where(oldRowData =>
+                refinedGroupedData.Any(
+                    refinedGroupedData => oldRowData.VariantValue == refinedGroupedData.VariantValue
+                    )
+                );
+
+            _datas[typeof(RowData)] = newRowDatas.ToGeneralDataList();
+
+            VisualizeGroupedData(drawAnomaliesChart: true);
+            ClassifyData();
+            UpdateCumulativeProbabilityChart(refinedGroupedData);
+            UpdateBarChartKdeFunction();
+        }
+
+        private void ClassifyData()
+        {
+            if (!_datas.ContainsKey(typeof(GroupedData)))
+                throw new InvalidOperationException($"Для створення класифікованих даних необхідна наявність згрупованих даних!");
+
+            var parsed = int.TryParse(ClassesAmountTextBox.Text, out int classesCount);
+
+            var parsedIsValid = MinClassifiedDatasAmount < classesCount && classesCount < _datas[typeof(GroupedData)].Count;
+
+            if (!parsed || !parsedIsValid)
+            {
+                MessageBox.Show("Кількість класів або не було введено, або було введено некоректно, тому значення розраховано автоматично!");
+
+                classesCount = Characteristics.ClassesCount;
+
+                ClassesAmountTextBox.Text = classesCount.ToString();
+            }
+            else
+            {
+                Characteristics.SetClassesCount(classesCount);
+            }
+
+            var parameters = new GroupedToClassifiedConverterParameters() { ClassesAmount = Characteristics.ClassesCount };
+
+            var groupedDatas = _datas[typeof(GroupedData)].ToTemplateDataList<GroupedData>();
+
+            List<ClassifiedData> classifiedDatas = MainDataConverter.Handle<GroupedData, ClassifiedData>(groupedDatas, parameters);
+
+            _datas[typeof(ClassifiedData)] = classifiedDatas.ToGeneralDataList();
+
+            VisualizeClassifiedData();
+        }
+        #endregion
+
+        #region Visualization
+        private void VisualizeGroupedData(bool drawAnomaliesChart)
         {
             var groupedDatas = _datas[typeof(GroupedData)].ToTemplateDataList<GroupedData>();
 
+            UpdateGroupedDatasGrid(groupedDatas);
+
+            if (drawAnomaliesChart)
+                UpdateAnomaliesPointsChart(_datas[typeof(RowData)].ToTemplateDataList<RowData>());
+        }
+
+        private void VisualizeClassifiedData()
+        {
+            var classifiedDatas = _datas[typeof(ClassifiedData)]
+                .Cast<ClassifiedData>()
+                .OrderBy(data => data.Edges.Min)
+                .ToList();
+
+            UpdateClassifiedDatasGrid(classifiedDatas);
+
+            UpdateBarChart(classifiedDatas);
+        }
+        #endregion
+
+        #region Updations
+        private void UpdateGroupedDatasGrid(List<GroupedData> groupedDatas)
+        {
             GroupedDataGrid.Items.Clear();
 
             for (int i = 0; i < groupedDatas.Count; i++)
@@ -62,10 +195,34 @@ namespace DA_Lab_1
             }
         }
 
-        private void UpdateAnomaliesPointsChart()
+        private void UpdateBarChart(List<ClassifiedData> classifiedDatas)
         {
-            var rowDatas = _datas[typeof(RowData)].ToTemplateDataList<RowData>();
+            var plot = BarChart.Plot;
 
+            plot.Clear();
+
+            var bar = plot.AddBar(
+                values: classifiedDatas.Select(data => data.RelativeFrequency).ToArray(),
+                positions: classifiedDatas.Select(data => (data.Edges.Min + data.Edges.Max) / 2).ToArray()
+                );
+
+            var edges = classifiedDatas[0].Edges;
+
+            bar.BarWidth = edges.Max - edges.Min;
+
+            BarChart.Refresh();
+        }
+
+        private void UpdateClassifiedDatasGrid(List<ClassifiedData> classifiedDatas)
+        {
+            ClassedDataGrid.Items.Clear();
+
+            foreach (var groupedData in classifiedDatas)
+                ClassedDataGrid.Items.Add(groupedData);
+        }
+
+        private void UpdateAnomaliesPointsChart(List<RowData> rowDatas)
+        {
             var plot = AnomaliesPointsChart.Plot;
 
             plot.Clear();
@@ -86,114 +243,39 @@ namespace DA_Lab_1
             AnomaliesPointsChart.Refresh();
         }
 
-        private void Reset()
+        private void UpdateBarChartKdeFunction()
         {
-            Characteristics.Reset();
+            var plot = BarChart.Plot;
 
-            WindowsResponsible.HideWindow<CharacteristicsWindow>();
+            var delta = (Characteristics.Max - Characteristics.Min) / KDEPointsAmount;
 
-            HistogramChart.Plot.Clear();
+            var pointsColor = ExtensionsMethods.GetRandomColor();
 
-            CumulativeProbabilityChart.Plot.Clear();
-
-            CumulativeProbabilityChart.Refresh();
-
-            ClassedDataGrid.Items.Clear();
-
-            GroupedDataGrid.Items.Clear();
-
-            AnomaliesPointsChart.Plot.Clear();
-        }
-
-        
-
-        #endregion
-
-        #region Classified data
-        private void ClassifyData()
-        {
-            if (!_datas.ContainsKey(typeof(GroupedData)))
-                throw new InvalidOperationException($"Для створення класифікованих даних необхідна наявність згрупованих даних!");
-
-            var groupedDatasAmount = _datas[typeof(GroupedData)].Count;
-
-            var parsed = int.TryParse(ClassesAmountTextBox.Text, out int classesCount);
-
-            var parsedIsValid = MinClassifiedDatasAmount < classesCount && classesCount < _datas[typeof(GroupedData)].Count;
-
-            if (!parsed || !parsedIsValid)
+            for (int i = 0; i < KDEPointsAmount + 1; i++)
             {
-                MessageBox.Show("Кількість класів або не було введено, або було введено некоректно, тому значення розраховано автоматично!");
+                var x = Characteristics.Min + i * delta;
 
-                classesCount = Characteristics.ClassesCount;
+                var y = Characteristics.GetKernelDensityEstimation(x);
 
-                ClassesAmountTextBox.Text = classesCount.ToString();
-            }
-            else
-            {
-                Characteristics.SetClassesCount(classesCount);
+                plot.AddPoint(x, y, pointsColor);
             }
 
-            SetClassesAmount();
+            BarChart.Refresh();
         }
 
-        private void SetClassesAmount()
+        private void UpdateCumulativeProbabilityChart(List<GroupedData> groupedDatas)
         {
-            UpdateClassifiedDatas();
-        }
-
-        private void UpdateClassifiedDatas()
-        {
-            var parameters = new GroupedToClassifiedConverterParameters() { ClassesAmount = Characteristics.ClassesCount };
-
-            var groupedDatas = _datas[typeof(GroupedData)].ToTemplateDataList<GroupedData>();
-
-            List<ClassifiedData> classifiedDatas = MainDataConverter.Handle<GroupedData, ClassifiedData>(groupedDatas, parameters);
-            
-            _datas[typeof(ClassifiedData)] = classifiedDatas.ToGeneralDataList();
-
-            FillClassifiedDatasGrid(classifiedDatas);
-
-            UpdateBarChart();
-        }
-
-        private void FillClassifiedDatasGrid(List<ClassifiedData> classifiedDatas)
-        {
-            ClassedDataGrid.Items.Clear();
-
-            foreach (var groupedData in classifiedDatas)
-                ClassedDataGrid.Items.Add(groupedData);
-        }
-        #endregion
-
-        #region Bar chart
-        
-
-        private void UpdateBarChart()
-        {
-            var classifiedDatas = _datas[typeof(ClassifiedData)]
-                .Cast<ClassifiedData>()
-                .OrderBy(data => data.Edges.Min)
-                .ToList();
-
-            var plot = HistogramChart.Plot;
+            var plot = CumulativeProbabilityChart.Plot;
 
             plot.Clear();
 
-            var bar = plot.AddBar(
-                values: classifiedDatas.Select(data => data.RelativeFrequency).ToArray(), 
-                positions: classifiedDatas.Select(data => (data.Edges.Min + data.Edges.Max) / 2).ToArray()
-                );
+            var xs = groupedDatas.Select(data => data.VariantValue).ToArray();
+            var ys = groupedDatas.Select(data => data.EmpiricFunctionValue).ToArray();
 
-            var edges = classifiedDatas[0].Edges;
+            plot.AddScatterStep(xs, ys);
 
-            bar.BarWidth = edges.Max - edges.Min;
-
-            HistogramChart.Refresh();
+            CumulativeProbabilityChart.Refresh();
         }
-
-
-
         #endregion
 
         #region Preparations
@@ -284,7 +366,7 @@ namespace DA_Lab_1
 
         private void PrepareBarChart()
         {
-            var plot = HistogramChart.Plot;
+            var plot = BarChart.Plot;
 
             plot.Title("Гістограма і ядерна оцінка");
             plot.YAxis.Label("Відносна частота");

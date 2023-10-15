@@ -29,7 +29,7 @@
                 <DataGridTextColumn Header="Значення емп. функції" CanUserResize="False" FontSize="12" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <WpfPlot x:Name="HistogramChart" Margin="10,402,0,0" Height="247" VerticalAlignment="Top" HorizontalAlignment="Left" Width="391"/>
+        <WpfPlot x:Name="BarChart" Margin="10,402,0,0" Height="247" VerticalAlignment="Top" HorizontalAlignment="Left" Width="391"/>
         <Button x:Name="ComputeCharacteristicsButton" Content="Обрахувати характеристики" Click="ComputeCharacteristicsButtonClick" Margin="968,98,10,0" Height="39" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
         <Button x:Name="BuildKernelDensityEstimationFunctionButton" Content="Побудувати КДЕ                             " Margin="968,142,10,0" Height="45" VerticalAlignment="Top" Click="BuildKernelDensityEstimationFunctionButtonClick" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}" Padding="-81,1,1,1"/>
         <WpfPlot x:Name="CumulativeProbabilityChart" Margin="406,402,0,0" HorizontalAlignment="Left" Width="429" Height="247" VerticalAlignment="Top"/>
@@ -37,14 +37,13 @@
         <TextBox x:Name="BandWidthTextBox" Margin="1088,146,18,0" TextWrapping="Wrap" Text="*ширина вікна*" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontStyle="Italic" Height="36" VerticalAlignment="Top"/>
         <Rectangle Margin="968,237,10,0" Fill="#FFE6E6E6" Stroke="Black" Height="87" VerticalAlignment="Top"/>
         <Slider x:Name="KParameterSlider" Margin="1015,296,50,0" Maximum="3" Value="1.5" Minimum="1.5" TickFrequency="0.1" RenderTransformOrigin="0.502,0.485" ValueChanged="KParameterSliderValueChanged" Height="19" VerticalAlignment="Top" Foreground="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
-        <Label Content="значення K =" Margin="1021,242,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="82"/>
-        <TextBox x:Name="KParameterTextBox" Margin="1103,242,18,0" TextWrapping="Wrap" Text="1.5" VerticalAlignment="Top" Height="26" Padding="0,4,0,0" TextAlignment="Center"/>
+        <Label Content="Ввести значення K =" Margin="978,242,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120"/>
+        <TextBox x:Name="KParameterTextBox" Margin="1103,242,18,0" TextWrapping="Wrap" Text="K=1,5" VerticalAlignment="Top" Height="26" Padding="0,4,0,0" TextAlignment="Center"/>
         <Label Content="1.5" HorizontalAlignment="Left" Margin="983,293,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label Content="3" Margin="0,293,29,0" FontWeight="Bold" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="17"/>
-        <Button x:Name="DeleteOutlieGroupedDataButton" Content="Видалити аномальні значення" Margin="968,330,10,0" Click="DeleteOutlieGroupedDataButtonClick" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}" Height="32" VerticalAlignment="Top"/>
-        <Label Content="для пошуку аномальних значень" Margin="978,267,29,0" VerticalAlignment="Top"/>
-        <Button x:Name="InputKParameterButton" Content="Ввести" HorizontalAlignment="Left" Margin="976,242,0,0" VerticalAlignment="Top" Height="26" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}" Width="45" Click="InputKParameterButtonClick"/>
+        <Button x:Name="DeleteOutlieGroupedDataButton" Content="Видалити аномальні значення" Margin="968,364,10,0" Click="DeleteOutlieGroupedDataButtonClick" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}" Height="32" VerticalAlignment="Top"/>
+        <Label Content="для пошуку аномальних значень" Margin="1022,268,64,0" VerticalAlignment="Top"/>
         <WpfPlot x:Name="AnomaliesPointsChart" Margin="845,402,0,0" Width="429" Height="247" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
-        <Button x:Name="FindAnomaliesButton" Content="Видалити аномальні значення" Margin="968,367,10,0" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}" Height="30" VerticalAlignment="Top"/>
+        <Button x:Name="FindAnomaliesButton" Content="Ідентифікувати аномальні значення" Margin="968,329,10,0" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}" Height="30" VerticalAlignment="Top" Click="FindAnomaliesButtonClick"/>
     </Grid>
 </Window>

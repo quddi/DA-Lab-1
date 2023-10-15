@@ -20,27 +20,30 @@ namespace DA_Lab_1
                 return;
             }
 
-            Reset();
+            SetNewDatas(rowDatas);
+        }
 
-            _datas.AddPair(typeof(RowData), rowDatas.ToGeneralDataList());
+        private void ClassifyDataButtonClick(object sender, RoutedEventArgs e)
+        {
+            ClassifyData();
+        }
 
-            Characteristics.SetDatas(rowDatas);
+        private void ComputeCharacteristicsButtonClick(object sender, RoutedEventArgs e)
+        {
+            var rowDatas = _datas[typeof(RowData)]?.ToTemplateDataList<RowData>();
 
-            UpdateAnomaliesPointsChart();
+            if (rowDatas == null)
+                throw new InvalidOperationException($"Для розрахунку характеристик завантажте дані!");
 
-            UpdateGroupedDataGrid();
+            var characteristicsWindow = (CharacteristicsWindow)WindowsResponsible.ShowWindow<CharacteristicsWindow>();
+
+            characteristicsWindow.InitializeComponent(new List<RowData>(rowDatas));
         }
 
         private void KParameterSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Characteristics.SetOutlieK(KParameterSlider.Value);
-
             if (KParameterTextBox?.Text != null)
-            {
-                KParameterTextBox.Text = string.Format($"K={Characteristics.OutlieK.ToFormattedString()}");
-
-                UpdateGroupedDataGrid();
-            }
+                KParameterTextBox.Text = string.Format($"K={KParameterSlider.Value.ToFormattedString()}");
         }
 
         private void DeleteOutlieGroupedDataButtonClick(object sender, RoutedEventArgs e)
@@ -53,40 +56,7 @@ namespace DA_Lab_1
             if (messageBoxResult == MessageBoxResult.No)
                 return;
 
-            var groupedDatas = _datas[typeof(GroupedData)]
-                .Cast<GroupedData>()
-                .Where(data => !data.IsOutlier)
-                .ToGeneralDataList();
-
-            _datas[typeof(GroupedData)] = groupedDatas;
-
-            FillGroupedDatasGrid();
-            ClassifyData();
-            UpdateAnomaliesPointsChart();
-        }
-
-        private void InputKParameterButtonClick(object sender, RoutedEventArgs e)
-        {
-            if (!double.TryParse(KParameterTextBox.Text, out double result))
-                return;
-
-            try
-            {
-                Characteristics.SetOutlieK(result);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Помилка при спробі призначення К: {ex.Message}");
-                return;
-            }
-
-            KParameterSlider.Value = result;
-            UpdateGroupedDataGrid();
-        }
-
-        private void ClassifyDataButtonClick(object sender, RoutedEventArgs e)
-        {
-            ClassifyData();
+            RemoveOutlierGroupedData();
         }
 
         private void BuildKernelDensityEstimationFunctionButtonClick(object sender, RoutedEventArgs e)
@@ -112,60 +82,43 @@ namespace DA_Lab_1
                 Characteristics.SetBandwidth(bandwidth);
             }
 
-            var plot = HistogramChart.Plot;
-
-            var delta = (Characteristics.Max - Characteristics.Min) / KDEPointsAmount;
-
-            var pointsColor = ExtensionsMethods.GetRandomColor();
-
-            for (int i = 0; i < KDEPointsAmount + 1; i++)
-            {
-                var x = Characteristics.Min + i * delta;
-
-                var y = Characteristics.GetKernelDensityEstimation(x);
-
-                plot.AddPoint(x, y, pointsColor);
-            }
-
-            HistogramChart.Refresh();
+            UpdateBarChartKdeFunction();
         }
 
         private void BuildCumulativeProbabilityFunctionButtonClick(object sender, RoutedEventArgs e)
         {
-            var plot = CumulativeProbabilityChart.Plot;
-
             var key = typeof(GroupedData);
 
             if (!_datas.ContainsKey(key))
             {
-                MessageBox.Show("Для побудови графіку емпіричної функції розподілу необхідна наявність сгрупованих даних!");
+                MessageBox.Show("Для побудови графіку емпіричної функції розподілу необхідна наявність згрупованих даних!");
                 return;
             }
 
-            plot.Clear();
-
             var groupedDatas = _datas[key]
                 .ToTemplateDataList<GroupedData>()
-                .OrderBy(data => data.EmpiricFunctionValue);
+                .OrderBy(data => data.EmpiricFunctionValue)
+                .ToList();
 
-            var xs = groupedDatas.Select(data => data.VariantValue).ToArray();
-            var ys = groupedDatas.Select(data => data.EmpiricFunctionValue).ToArray();
-
-            plot.AddScatterStep(xs, ys);
-
-            CumulativeProbabilityChart.Refresh();
+            UpdateCumulativeProbabilityChart(groupedDatas);
         }
 
-        private void ComputeCharacteristicsButtonClick(object sender, RoutedEventArgs e)
+        private void FindAnomaliesButtonClick(object sender, RoutedEventArgs e)
         {
-            var rowDatas = _datas[typeof(RowData)]?.ToTemplateDataList<RowData>();
+            if (!double.TryParse(KParameterTextBox.Text.Remove(0, 2), out double result))
+                return;
 
-            if (rowDatas == null)
-                throw new InvalidOperationException($"Для розрахунку характеристик завантажте дані!");
+            try
+            {
+                Characteristics.SetOutlieK(result);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка при спробі призначення К: {ex.Message}");
+                return;
+            }
 
-            var characteristicsWindow = (CharacteristicsWindow)WindowsResponsible.ShowWindow<CharacteristicsWindow>();
-
-            characteristicsWindow.InitializeComponent(new List<RowData>(rowDatas));
+            FindOutlieGroupedData();
         }
     }
 }
