@@ -55,5 +55,9 @@ namespace DA_Lab_1
         {
             return value.ToString("0.0000");
         }
+
+        public static bool IsEqual(this double a, double b) => Math.Abs(a - b) < Characteristics.Tolerance;
+
+        public static bool IsLessOrEqual(this double a, double b) => a < b || a.IsEqual(b);
     }
 }

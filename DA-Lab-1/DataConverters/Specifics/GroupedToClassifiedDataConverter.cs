@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Markup;
 
 namespace DA_Lab_1
 {
@@ -28,10 +29,10 @@ namespace DA_Lab_1
             {
                 var leftEdge = minValue + Characteristics.ClassWidth * i;
                 var rightEdge = minValue + Characteristics.ClassWidth * (i + 1);
+                var isLast = i != concretizedParameters.ClassesAmount - 1;
 
-                var suitableDatas = (i != concretizedParameters.ClassesAmount - 1)
-                    ? data.Where(data => (leftEdge <= data.VariantValue && data.VariantValue < rightEdge))
-                    : data.Where(data => (leftEdge <= data.VariantValue && data.VariantValue <= rightEdge))
+                var suitableDatas = data.Where(data => 
+                    IsDataSuitable(isLast, leftEdge, rightEdge, data.VariantValue))
                     .ToList();
 
                 var frequency = suitableDatas.Sum(data => data.Frequency);
@@ -55,6 +56,13 @@ namespace DA_Lab_1
             }
 
             return result;
+        }
+
+        protected bool IsDataSuitable(bool isLast, double leftEdge, double rightEdge, double value)
+        {
+            return isLast
+                ? leftEdge.IsLessOrEqual(value) && value < rightEdge
+                : leftEdge.IsLessOrEqual(value) & value.IsLessOrEqual(rightEdge);
         }
     }
 }

@@ -14,10 +14,13 @@ namespace DA_Lab_1
 
             foreach (var groupedData in data)
             {
+                double t = GetConvertedX(groupedData.VariantValue);
+                double z = GetConvertedY(groupedData.EmpiricFunctionValue);
+
                 var item = new TransformedGroupedData
                 {
-                    T = GetConvertedX(groupedData.VariantValue),
-                    Z = GetConvertedY(groupedData.EmpiricFunctionValue)
+                    T = t,
+                    Z = z
                 };
 
                 if (!double.IsNaN(item.Z)) result.Add(item);
@@ -28,6 +31,6 @@ namespace DA_Lab_1
 
         private double GetConvertedX(double x) => x;
 
-        private double GetConvertedY(double y) => Characteristics.GetStudentDistributionQuantile(y, Characteristics.Count-1);
+        private double GetConvertedY(double y) => Characteristics.GetNormalDistributionQuantile(y);
     }
 }

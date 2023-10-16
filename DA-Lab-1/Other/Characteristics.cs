@@ -47,6 +47,8 @@ namespace DA_Lab_1
         private static int? _count;
         private static int? _classesCount;
 
+        public const double Tolerance = 0.00001;
+
         public static double Mean
         {
             get
@@ -647,27 +649,34 @@ namespace DA_Lab_1
             var g3 = GetG3(uP);
             var g4 = GetG4(uP);
 
-            return uP + (g1 / v) + (g2 / Math.Pow(uP, 2)) + (g3 / Math.Pow(uP, 3)) + (g4 / Math.Pow(uP, 4));
+            return uP + (g1 / v) + (g2 / Math.Pow(v, 2)) + (g3 / Math.Pow(v, 3)) + (g4 / Math.Pow(v, 4));
         }
 
-        private static double GetQuantileT(double a) => Math.Sqrt(-2 * Math.Log2(a));
+        public static double GetNormalDistributionQuantile(double p)
+        {
+            return p.IsLessOrEqual(0.5)
+                ? -1.0 * GetQuantilePhi(p)
+                : GetQuantilePhi(1.0 - p);
+        }
+
+        private static double GetQuantileT(double a) => Math.Sqrt(-2 * Math.Log(a));
 
         private static double GetQuantilePhi(double a)
         {
             var t = GetQuantileT(a);
 
-            var numerator = C0 + C1 * t + C2 * t * t;
+            var numerator = 
+                C0 + 
+                C1 * t + 
+                C2 * t * t;
 
-            var denominator = 1 + D1 * t + D2 * t * t + D3 * t * t * t;
+            var denominator = 
+                1 + 
+                D1 * t + 
+                D2 * t * t + 
+                D3 * t * t * t;
 
-            return t - numerator / denominator;
-        }
-
-        private static double GetNormalDistributionQuantile(double p)
-        {
-            return p <= 0.5
-                ? -1 * GetQuantilePhi(p)
-                : GetQuantilePhi(1 - p);
+            return t - (numerator / denominator);
         }
 
         private static double GetG1(double uP) => (uP * uP * uP + uP) / 4;
