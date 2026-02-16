@@ -9,12 +9,23 @@ namespace DA_Lab_1
     {
         private void GenerateDataButtonClick(object sender, RoutedEventArgs e)
         {
+            if (!double.TryParse(LambdaTextBox.Text, out double lambda) || Math.Abs(lambda) < double.Epsilon)
+            {
+                MessageBox.Show("Введіть коректне значення lambda (не 0)!");
+                return;
+            }
+
             var random = new Random();
             var rowDatas = new List<RowData>(10000);
 
             for (int i = 0; i < 10000; i++)
             {
-                rowDatas.Add(new RowData() { VariantValue = random.NextDouble() * 1000 });
+                double epsilon = random.NextDouble();
+                // Ensure epsilon is not 0 to avoid Log(0)
+                if (epsilon == 0) epsilon = double.Epsilon;
+
+                double x = -Math.Log(epsilon) / lambda;
+                rowDatas.Add(new RowData() { VariantValue = x });
             }
 
             SetNewDatas(rowDatas);
