@@ -1,15 +1,19 @@
 {
   "version": 2,
-  "dgSpecHash": "O83xyTeyPFV0jbtG/hz0dn7kGfrhhQmISf2d32IJWf6voClewblBEeLF1djtOJhGcnJ5VgKjeQvvF/ssVB0gBQ==",
+  "dgSpecHash": "3xMRdKeS4xY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\alemk\\source\\repos\\DA-Lab-1\\DA-Lab-1\\DA-Lab-1.csproj",
+  "projectFilePath": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\DA-Lab-1.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\alemk\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.4\\microsoft.netcore.platforms.3.1.4.nupkg.sha512",
-    "C:\\Users\\alemk\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
-    "C:\\Users\\alemk\\.nuget\\packages\\scottplot\\4.1.67\\scottplot.4.1.67.nupkg.sha512",
-    "C:\\Users\\alemk\\.nuget\\packages\\scottplot.wpf\\4.1.67\\scottplot.wpf.4.1.67.nupkg.sha512",
-    "C:\\Users\\alemk\\.nuget\\packages\\system.drawing.common\\4.7.2\\system.drawing.common.4.7.2.nupkg.sha512",
-    "C:\\Users\\alemk\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512"
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.4\\microsoft.netcore.platforms.3.1.4.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\scottplot\\4.1.67\\scottplot.4.1.67.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\scottplot.wpf\\4.1.67\\scottplot.wpf.4.1.67.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\system.drawing.common\\4.7.2\\system.drawing.common.4.7.2.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.36\\microsoft.netcore.app.host.win-x64.6.0.36.nupkg.sha512"
   ],
   "logs": []
 }

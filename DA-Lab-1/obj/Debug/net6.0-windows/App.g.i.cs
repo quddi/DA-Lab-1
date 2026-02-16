@@ -46,13 +46,12 @@ namespace DA_Lab_1 {
         /// InitializeComponent
         /// </summary>
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "7.0.11.0")]
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "8.0.8.0")]
         public void InitializeComponent() {
             
             #line 5 "..\..\..\App.xaml"
-
             this.StartupUri = new System.Uri("Windows/Concrete/MainWindow.xaml", System.UriKind.Relative);
-
+            
             #line default
             #line hidden
         }
@@ -62,7 +61,7 @@ namespace DA_Lab_1 {
         /// </summary>
         [System.STAThreadAttribute()]
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "7.0.11.0")]
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "8.0.8.0")]
         public static void Main() {
             DA_Lab_1.App app = new DA_Lab_1.App();
             app.InitializeComponent();
