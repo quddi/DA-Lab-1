@@ -7,17 +7,14 @@ namespace DA_Lab_1
 {
     public partial class MainWindow : Window
     {
-        private void UploadFileButtonClick(object sender, RoutedEventArgs e)
+        private void GenerateDataButtonClick(object sender, RoutedEventArgs e)
         {
-            var rowDatas = DataLoader.LoadValues()?
-                .Select(value => new RowData() { VariantValue = value })
-                .ToList();
+            var random = new Random();
+            var rowDatas = new List<RowData>(10000);
 
-            if (rowDatas == null)
+            for (int i = 0; i < 10000; i++)
             {
-                MessageBox.Show("Список значень був пустий!");
-
-                return;
+                rowDatas.Add(new RowData() { VariantValue = random.NextDouble() * 1000 });
             }
 
             SetNewDatas(rowDatas);

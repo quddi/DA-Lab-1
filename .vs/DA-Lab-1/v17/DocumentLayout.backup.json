@@ -1,0 +1,161 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\CSharpProjects\\DA_Lab_1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\other\\characteristics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\other\\characteristics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\extentions\\extensionsmethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\extentions\\extensionsmethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\dataconverters\\specifics\\groupedtotransformedgroupeddataconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\dataconverters\\specifics\\groupedtotransformedgroupeddataconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\windows\\concrete\\characteristicswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\windows\\concrete\\characteristicswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\windows\\concrete\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\windows\\concrete\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\windows\\concrete\\mainwindow\\mainwindow.uihandlers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\windows\\concrete\\mainwindow\\mainwindow.uihandlers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\dto\\specifics\\rowdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\dto\\specifics\\rowdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 220,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Characteristics.cs",
+              "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Other\\Characteristics.cs",
+              "RelativeDocumentMoniker": "DA-Lab-1\\Other\\Characteristics.cs",
+              "ToolTip": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Other\\Characteristics.cs",
+              "RelativeToolTip": "DA-Lab-1\\Other\\Characteristics.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAAwAwAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-16T20:12:29.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GroupedToTransformedGroupedDataConverter.cs",
+              "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\DataConverters\\Specifics\\GroupedToTransformedGroupedDataConverter.cs",
+              "RelativeDocumentMoniker": "DA-Lab-1\\DataConverters\\Specifics\\GroupedToTransformedGroupedDataConverter.cs",
+              "ToolTip": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\DataConverters\\Specifics\\GroupedToTransformedGroupedDataConverter.cs",
+              "RelativeToolTip": "DA-Lab-1\\DataConverters\\Specifics\\GroupedToTransformedGroupedDataConverter.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAewB4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-16T20:12:29.846Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RowData.cs",
+              "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\DTO\\Specifics\\RowData.cs",
+              "RelativeDocumentMoniker": "DA-Lab-1\\DTO\\Specifics\\RowData.cs",
+              "ToolTip": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\DTO\\Specifics\\RowData.cs",
+              "RelativeToolTip": "DA-Lab-1\\DTO\\Specifics\\RowData.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-16T20:12:29.85Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ExtensionsMethods.cs",
+              "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Extentions\\ExtensionsMethods.cs",
+              "RelativeDocumentMoniker": "DA-Lab-1\\Extentions\\ExtensionsMethods.cs",
+              "ToolTip": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Extentions\\ExtensionsMethods.cs",
+              "RelativeToolTip": "DA-Lab-1\\Extentions\\ExtensionsMethods.cs",
+              "ViewState": "AQIAAC4AAAAAAAAAAAAkwDoAAABqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-16T20:12:29.853Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CharacteristicsWindow.xaml.cs",
+              "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\CharacteristicsWindow.xaml.cs",
+              "RelativeDocumentMoniker": "DA-Lab-1\\Windows\\Concrete\\CharacteristicsWindow.xaml.cs",
+              "ToolTip": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\CharacteristicsWindow.xaml.cs",
+              "RelativeToolTip": "DA-Lab-1\\Windows\\Concrete\\CharacteristicsWindow.xaml.cs",
+              "ViewState": "AQIAAIUAAAAAAAAAAAA8wJQAAABfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-16T20:12:29.856Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MainWindow.UiHandlers.cs",
+              "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\MainWindow\\MainWindow.UiHandlers.cs",
+              "RelativeDocumentMoniker": "DA-Lab-1\\Windows\\Concrete\\MainWindow\\MainWindow.UiHandlers.cs",
+              "ToolTip": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\MainWindow\\MainWindow.UiHandlers.cs",
+              "RelativeToolTip": "DA-Lab-1\\Windows\\Concrete\\MainWindow\\MainWindow.UiHandlers.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAQwBYAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-16T20:12:29.858Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml.cs",
+              "RelativeToolTip": "DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml.cs",
+              "ViewState": "AQIAAH8AAAAAAAAAAAAQwIUAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-16T20:12:29.86Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
