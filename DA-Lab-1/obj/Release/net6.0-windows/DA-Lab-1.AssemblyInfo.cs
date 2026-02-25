@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DA-Lab-1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c6b781d8b0dec7353f0effe2ef27187b9f27aaf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b49a38405061ad8f0c7c13a338d6bce10740817d")]
 [assembly: System.Reflection.AssemblyProductAttribute("DA-Lab-1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DA-Lab-1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

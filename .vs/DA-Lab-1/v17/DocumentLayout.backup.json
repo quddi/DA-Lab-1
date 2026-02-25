@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "D:\\CSharpProjects\\DA_Lab_1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\windows\\concrete\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\windows\\concrete\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\windows\\concrete\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\windows\\concrete\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\other\\characteristics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\other\\characteristics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\windows\\concrete\\characteristicswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\windows\\concrete\\characteristicswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\windows\\concrete\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|solutionrelative:da-lab-1\\windows\\concrete\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FF8C305-A4F1-45F3-9A21-485D81CA8051}|DA-Lab-1\\DA-Lab-1.csproj|d:\\csharpprojects\\da_lab_1\\da-lab-1\\windows\\concrete\\mainwindow\\mainwindow.uihandlers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -71,19 +75,31 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml",
+              "ToolTip": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml",
+              "RelativeToolTip": "DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-02-25T15:31:17.64Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Characteristics.cs",
               "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Other\\Characteristics.cs",
               "RelativeDocumentMoniker": "DA-Lab-1\\Other\\Characteristics.cs",
               "ToolTip": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Other\\Characteristics.cs",
               "RelativeToolTip": "DA-Lab-1\\Other\\Characteristics.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAAwAwAAAAqAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-16T20:12:29.822Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "GroupedToTransformedGroupedDataConverter.cs",
               "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\DataConverters\\Specifics\\GroupedToTransformedGroupedDataConverter.cs",
               "RelativeDocumentMoniker": "DA-Lab-1\\DataConverters\\Specifics\\GroupedToTransformedGroupedDataConverter.cs",
@@ -95,7 +111,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "RowData.cs",
               "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\DTO\\Specifics\\RowData.cs",
               "RelativeDocumentMoniker": "DA-Lab-1\\DTO\\Specifics\\RowData.cs",
@@ -107,7 +123,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ExtensionsMethods.cs",
               "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Extentions\\ExtensionsMethods.cs",
               "RelativeDocumentMoniker": "DA-Lab-1\\Extentions\\ExtensionsMethods.cs",
@@ -119,7 +135,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "CharacteristicsWindow.xaml.cs",
               "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\CharacteristicsWindow.xaml.cs",
               "RelativeDocumentMoniker": "DA-Lab-1\\Windows\\Concrete\\CharacteristicsWindow.xaml.cs",
@@ -131,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "MainWindow.UiHandlers.cs",
               "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\MainWindow\\MainWindow.UiHandlers.cs",
               "RelativeDocumentMoniker": "DA-Lab-1\\Windows\\Concrete\\MainWindow\\MainWindow.UiHandlers.cs",
@@ -143,15 +159,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml.cs",
               "ToolTip": "D:\\CSharpProjects\\DA_Lab_1\\DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml.cs",
               "RelativeToolTip": "DA-Lab-1\\Windows\\Concrete\\MainWindow.xaml.cs",
-              "ViewState": "AQIAAH8AAAAAAAAAAAAQwIUAAAAqAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-16T20:12:29.86Z"
+              "WhenOpened": "2026-02-16T20:12:29.86Z",
+              "EditorCaption": ""
             }
           ]
         }
